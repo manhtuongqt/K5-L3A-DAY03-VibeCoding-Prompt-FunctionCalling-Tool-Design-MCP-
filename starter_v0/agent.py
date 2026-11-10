@@ -39,6 +39,11 @@ class ResearchAgent:
         )
         results: list[dict[str, Any]] = []
         for call in response.tool_calls:
+            if call.name == "send":
+                results.append({"tool": call.name, "args": call.args, "result": {
+                    "error": "action_disabled_in_lab_runner",
+                    "message": "Model-supplied confirmed=true is not human consent. This runner does not publish externally."}})
+                continue
             func = TOOL_FUNCTIONS.get(call.name)
             if not func:
                 results.append({"tool": call.name, "error": "unknown_tool"})

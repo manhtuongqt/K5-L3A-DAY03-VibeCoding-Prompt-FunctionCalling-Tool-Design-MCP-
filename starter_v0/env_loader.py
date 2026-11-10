@@ -7,7 +7,7 @@ from pathlib import Path
 def load_dotenv(path: Path, *, override: bool = True) -> None:
     if not path.exists():
         return
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
+    for raw_line in path.read_text(encoding="utf-8-sig").splitlines():
         line = raw_line.strip()
         if not line or line.startswith("#") or "=" not in line:
             continue
@@ -19,7 +19,7 @@ def load_dotenv(path: Path, *, override: bool = True) -> None:
 
 
 def load_lab_env(root: Path) -> None:
-    external_path = os.getenv("DAY04_ENV_FILE")
+    external_path = os.getenv("DAY03_ENV_FILE") or os.getenv("DAY04_ENV_FILE")
     if external_path:
         load_dotenv(Path(external_path).expanduser())
         return

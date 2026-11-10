@@ -1,0 +1,5 @@
+# Preserve the exact bytes used for SHA-256 evidence across operating systems.
+starter_v0/artifacts/system_prompt.md -text
+starter_v0/artifacts/tools.yaml -text
+starter_v0/artifacts/versions/** -text
+starter_v0/analysis/demo_cli_console.txt -whitespace

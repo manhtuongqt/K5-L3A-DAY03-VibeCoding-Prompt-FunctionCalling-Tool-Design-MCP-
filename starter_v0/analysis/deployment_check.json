@@ -1,0 +1,12 @@
+{
+  "url": "https://learned-agreed-focused-korean.trycloudflare.com",
+  "local_url": "http://127.0.0.1:8501",
+  "/": {
+    "status": 200,
+    "bytes": 7863
+  },
+  "/_stcore/health": {
+    "status": 200,
+    "bytes": 2
+  }
+}

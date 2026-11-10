@@ -1,0 +1,8 @@
+{
+  "description": "Kịch bản kiểm tra tự động gọi chat.py và API thật; không phải lời kể về một buổi thử với người dùng.",
+  "turns": [
+    "Tóm tắt bài này giúp tôi.",
+    "Đây là URL tôi muốn đọc: https://docs.python.org/3/tutorial/ . Tóm tắt ngắn bằng tiếng Việt và dẫn đường dẫn nguồn.",
+    "Tìm 2 nguồn chính thức về Python asyncio trên web, sau đó tổng hợp ngắn bằng tiếng Việt và dẫn link."
+  ]
+}

@@ -38,15 +38,23 @@ def _tweet_item(raw: dict[str, Any]) -> dict[str, Any]:
 
 
 def _tweets_from(data: dict[str, Any], limit: int) -> list[dict[str, Any]]:
+    count = int(limit if limit is not None else 5)
+    if count < 0:
+        raise ValueError("limit must be nonnegative")
     raw_items = data.get("timeline") or data.get("tweets") or []
     items = [_tweet_item(item) for item in raw_items if item.get("tweet_id") or item.get("id")]
-    return items[: int(limit or 5)]
+    return items[:count]
 
 
 def search_tweets(query: str = "", search_type: str = "Latest", limit: int = 5) -> dict[str, Any]:
     try:
+        count = int(limit if limit is not None else 5)
+        if count < 0:
+            raise ValueError("limit must be nonnegative")
+        if count == 0:
+            return {"tool": "search_tweets", "query": query, "search_type": search_type, "items": []}
         data = _twitter_get("/search.php", {"query": query, "search_type": search_type})
-        return {"tool": "search_tweets", "query": query, "search_type": search_type, "items": _tweets_from(data, limit)}
+        return {"tool": "search_tweets", "query": query, "search_type": search_type, "items": _tweets_from(data, count)}
     except Exception as exc:
         return err("search_tweets", exc)
 

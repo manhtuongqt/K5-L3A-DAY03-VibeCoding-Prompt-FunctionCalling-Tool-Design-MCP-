@@ -12,6 +12,7 @@ from providers import make_provider
 from providers.base import ToolCall
 from tools import TOOL_FUNCTIONS, load_tool_declarations, to_openai_tools
 from versioning import artifact_version_dict, build_artifact_version
+from redaction import redact_secrets
 
 
 ROOT = Path(__file__).parent
@@ -29,7 +30,7 @@ def safe_slug(value: str) -> str:
 
 
 def json_text(value: Any, *, max_chars: int | None = None) -> str:
-    text = json.dumps(value, ensure_ascii=False, indent=2, default=str)
+    text = json.dumps(redact_secrets(value), ensure_ascii=False, indent=2, default=str)
     if max_chars is not None and len(text) > max_chars:
         return text[:max_chars] + "\n...<truncated>"
     return text
@@ -42,6 +43,10 @@ def trim_history(history: list[dict[str, str]], window: int) -> list[dict[str, s
 
 
 def execute_tool_call(call: ToolCall) -> dict[str, Any]:
+    if call.name == "send":
+        return {"tool": call.name, "args": call.args, "result": {
+            "error": "action_disabled_in_lab_runner",
+            "message": "This demo does not publish. A model's confirmation flag is not human consent."}}
     func = TOOL_FUNCTIONS.get(call.name)
     if not func:
         return {
@@ -146,7 +151,7 @@ def run_model_tool_loop(
 def write_transcript(path: Path, transcript: dict[str, Any]) -> None:
     transcript["updated_at"] = now_iso()
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(transcript, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
+    path.write_text(json.dumps(redact_secrets(transcript), ensure_ascii=False, indent=2, default=str), encoding="utf-8")
 
 
 def main() -> None:

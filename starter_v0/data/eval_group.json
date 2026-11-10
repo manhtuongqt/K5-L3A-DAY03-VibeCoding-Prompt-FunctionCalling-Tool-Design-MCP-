@@ -1,7 +1,88 @@
 {
-  "dataset_id": "day04_v2_research_group",
+  "dataset_id": "day03_student_research_group",
   "dataset_role": "group",
-  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "description": "10 case bổ sung: 5 single turn, 5 multi turn. Không sửa base eval. Multi-turn chỉ chấm lượt cuối theo runner.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "cases": [
+    {
+      "id": "G01_dedupe_provided_sources", "phase": "B", "suite": "group", "failure_type": "wrong_tool",
+      "query": "Loại URL trùng khỏi danh sách này, giữ item đầu và không tra cứu thêm: [{\"title\":\"Nguồn A\",\"url\":\"https://example.com/a\"},{\"title\":\"A lặp\",\"url\":\"https://example.com/a\"},{\"title\":\"Nguồn B\",\"url\":\"https://example.com/b\"}]",
+      "expect": {"tool_calls": [{"name": "dedupe_sources", "args": {"items": [{"title": "Nguồn A", "url": "https://example.com/a"}, {"title": "A lặp", "url": "https://example.com/a"}, {"title": "Nguồn B", "url": "https://example.com/b"}]}}]},
+      "metadata": {"what_it_tests": "Có dữ liệu sẵn và yêu cầu loại URL trùng: route tool mới, truyền đúng danh sách gốc và không lookup/fetch. Unit test kiểm tra output giữ item đầu/thứ tự."}
+    },
+    {
+      "id": "G02_explicit_handle_limit", "phase": "B", "suite": "group", "failure_type": "wrong_arg_value",
+      "query": "Lấy đúng 2 tweet mới nhất từ tài khoản @NASA.",
+      "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "NASA", "limit": 2}}]},
+      "metadata": {"what_it_tests": "Handle có @ phải bỏ @, giữ số lượng 2; không chuyển sang tìm theo chủ đề."}
+    },
+    {
+      "id": "G03_news_24hours", "phase": "B", "suite": "group", "failure_type": "wrong_arg_value",
+      "query": "Tìm 3 tin tức về pin xe điện trong 24 giờ gần đây trên web.",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"topic": "news", "timeframe": "day", "max_results": 3}}]},
+      "metadata": {"what_it_tests": "24 giờ gần đây là day, tin tức là news và giữ max_results=3.", "baseline_failure_reference": "v0 R03 thiếu query trong lookup; R13 query bị mở rộng sai expectation. Case mới kiểm tra convention của news/timeframe/quantity với chủ đề khác."}
+    },
+    {
+      "id": "G04_missing_article_url", "phase": "B", "suite": "group", "failure_type": "missing_info",
+      "query": "Đọc và tóm tắt bài tôi nói tới, nhưng tôi chưa gửi đường dẫn.",
+      "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "text"}}]},
+      "metadata": {"what_it_tests": "Thiếu URL phải hỏi lại, không tự tìm một bài thay thế.", "baseline_failure_reference": "v0 R11_missing_url không gọi clarify."}
+    },
+    {
+      "id": "G05_out_of_scope_code", "phase": "B", "suite": "group", "failure_type": "out_of_scope",
+      "query": "Viết chương trình C++ sắp xếp mảng bằng quicksort giúp tôi.",
+      "expect": {"no_tool": true, "behavior": "refuse"},
+      "metadata": {"what_it_tests": "Yêu cầu viết code ngoài phạm vi research: không gọi tool. Chất lượng từ chối cần đọc tay.", "baseline_failure_reference": "v0 R14_out_of_scope_coding gọi send để trả lời thay vì không dùng tool."}
+    },
+    {
+      "id": "G06_correct_account", "phase": "B", "suite": "group", "failure_type": "wrong_arg_value",
+      "turns": [
+        {"role": "user", "content": "Lấy 4 tweet mới nhất của @sama."},
+        {"role": "user", "content": "Tôi sửa lại, tài khoản cần xem là @karpathy."},
+        {"role": "user", "content": "Giữ số lượng 4, chỉ xem tài khoản đã sửa."}
+      ],
+      "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "karpathy", "limit": 4}}]},
+      "metadata": {"what_it_tests": "Sửa tài khoản phải thay giá trị cũ nhưng giữ limit đã yêu cầu."}
+    },
+    {
+      "id": "G07_clarify_then_account", "phase": "B", "suite": "group", "failure_type": "missing_info",
+      "turns": [
+        {"role": "user", "content": "Tóm tắt 3 tweet mới nhất giúp tôi."},
+        {"role": "user", "content": "Tài khoản là @NASA."},
+        {"role": "user", "content": "Chỉ lấy đúng 3 tweet của tài khoản đó."}
+      ],
+      "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "NASA", "limit": 3}}]},
+      "metadata": {"what_it_tests": "Lượt sau bổ sung slot thiếu; không hỏi lại khi đã đủ dữ liệu."}
+    },
+    {
+      "id": "G08_switch_source_keep_period", "phase": "B", "suite": "group", "failure_type": "wrong_tool",
+      "turns": [
+        {"role": "user", "content": "Tìm tweet về năng lượng tái tạo trong tháng này."},
+        {"role": "user", "content": "Bỏ Twitter, tôi chỉ cần tin tức trên web."},
+        {"role": "user", "content": "Giữ chủ đề và khoảng thời gian tháng này."}
+      ],
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"topic": "news", "timeframe": "month"}}]},
+      "metadata": {"what_it_tests": "Đổi nguồn sang web phải đổi tool, giữ timeframe=month, không tiếp tục social_search.", "baseline_failure_reference": "v0 M06_switch_tool vẫn chọn social_search sau khi người dùng chuyển sang web; M02 cũng chọn social_search cho tin trên web."}
+    },
+    {
+      "id": "G09_correct_article_url", "phase": "B", "suite": "group", "failure_type": "wrong_arg_value",
+      "turns": [
+        {"role": "user", "content": "Đọc bài này: https://example.com/old."},
+        {"role": "user", "content": "Tôi gửi nhầm, dùng https://example.com/new thay thế."},
+        {"role": "user", "content": "Chỉ đọc đúng link mới, không tìm thêm."}
+      ],
+      "expect": {"tool_calls": [{"name": "fetch", "args": {"url": "https://example.com/new"}}]},
+      "metadata": {"what_it_tests": "URL sửa ở lượt sau thay URL cũ, không fetch hai URL. example.com là dữ liệu case, không giả làm nguồn tin thật."}
+    },
+    {
+      "id": "G10_cancel_publication", "phase": "B", "suite": "group", "failure_type": "wrong_boundary",
+      "turns": [
+        {"role": "user", "content": "Tôi định gửi bản tin lên Telegram."},
+        {"role": "user", "content": "Chưa xác nhận gửi, tôi muốn hủy."},
+        {"role": "user", "content": "Không gửi hoặc tra cứu gì nữa. Chỉ nói đã hủy yêu cầu."}
+      ],
+      "expect": {"no_tool": true, "behavior": "answer_without_tool"},
+      "metadata": {"what_it_tests": "Hủy hành động phải có hiệu lực: không send, không hỏi xác nhận lại hoặc tra cứu thừa. Nội dung trả lời cần đọc tay.", "baseline_failure_reference": "v0 R12_confirm_before_send không gọi clarify. Case mới mở rộng boundary sang việc người dùng hủy yêu cầu."}
+    }
+  ]
 }

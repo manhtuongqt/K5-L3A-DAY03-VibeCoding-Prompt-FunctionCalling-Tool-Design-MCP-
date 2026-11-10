@@ -11,3 +11,6 @@ side_effect: false
 # social_search
 
 Searches posts by keyword. `search_type` orders results (`Latest` or `Top`).
+`limit=0` returns an empty item list; negative or nonnumeric limits return an
+error dictionary. These cases are handled before reading credentials or making
+an HTTP request. Positive limits retain the normal live RapidAPI behavior.

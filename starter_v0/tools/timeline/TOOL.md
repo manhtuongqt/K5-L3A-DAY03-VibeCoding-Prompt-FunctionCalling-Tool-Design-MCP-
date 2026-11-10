@@ -12,3 +12,6 @@ side_effect: false
 
 Fetches recent posts from a single account. `screenname` is an account handle
 without `@`.
+`limit=0` returns an empty item list; negative or nonnumeric limits return an
+error dictionary. These cases are handled before reading credentials or making
+an HTTP request. Positive limits retain the normal live RapidAPI behavior.

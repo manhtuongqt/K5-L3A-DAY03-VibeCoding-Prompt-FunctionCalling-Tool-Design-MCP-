@@ -1,0 +1,44 @@
+{
+  "base_eval_content_unchanged": true,
+  "base_eval_working_sha256": "9cd22a8225b18720f7b42c53c2c9b500b6fe2aaefe72472f26b552dc00d9c2e4",
+  "base_eval_upstream_sha256": "b35f6668d26d0efd18d02fd19e058902123f210d2d5044eef912516b8d350f18",
+  "explanation": "Only platform line endings differ in the checkout. Snapshot bytes are preserved by .gitattributes.",
+  "snapshot_checks": [
+    {
+      "run": "runs\\v0-tools_B_base_openai_20261110T102605294217.json",
+      "version": "v0-tools",
+      "prompt_hash_matches": true,
+      "tools_hash_matches": true
+    },
+    {
+      "run": "runs\\v0_B_base_openai_20261110T102405796370.json",
+      "version": "v0",
+      "prompt_hash_matches": true,
+      "tools_hash_matches": true
+    },
+    {
+      "run": "runs\\v1_B_base_openai_20261110T103103485630.json",
+      "version": "v1",
+      "prompt_hash_matches": true,
+      "tools_hash_matches": true
+    },
+    {
+      "run": "runs\\v2_B_base_openai_20261110T103328666912.json",
+      "version": "v2",
+      "prompt_hash_matches": true,
+      "tools_hash_matches": true
+    },
+    {
+      "run": "runs\\v3_B_base_openai_20261110T103612853703.json",
+      "version": "v3",
+      "prompt_hash_matches": true,
+      "tools_hash_matches": true
+    },
+    {
+      "run": "runs\\v3_B_group_openai_20261110T103735052541.json",
+      "version": "v3",
+      "prompt_hash_matches": true,
+      "tools_hash_matches": true
+    }
+  ]
+}

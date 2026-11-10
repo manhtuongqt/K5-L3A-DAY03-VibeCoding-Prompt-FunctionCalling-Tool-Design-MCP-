@@ -1,0 +1,17 @@
+{
+  "interface": "Streamlit AppTest with real model API, not a mocked provider",
+  "public_mode": true,
+  "exception_count": 0,
+  "turns": 1,
+  "transcript": "C:\\Users\\ADMIN\\Desktop\\aithucchien\\Day03-Prompt-Engineering-Tool-Calling-Labs-student\\starter_v0\\transcripts\\ui_v3_openai_20261110T104029520676.transcript.json",
+  "artifact_version": "v3+p85720a48a634+t2dad8f882788",
+  "results": [
+    {
+      "status": "answered",
+      "tools": [
+        "dedupe_sources"
+      ],
+      "assistant_text": "Đã loại bỏ 1 URL trùng lặp. Danh sách còn lại gồm 2 mục."
+    }
+  ]
+}

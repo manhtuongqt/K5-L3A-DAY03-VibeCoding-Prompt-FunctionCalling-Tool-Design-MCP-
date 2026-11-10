@@ -12,6 +12,7 @@ from env_loader import load_lab_env
 from providers import make_provider
 from tools import TOOL_FUNCTIONS, load_tool_declarations, to_openai_tools
 from versioning import artifact_version_dict, build_artifact_version
+from redaction import redact_secrets
 
 
 ROOT = Path(__file__).parent
@@ -101,7 +102,10 @@ def normalize_value(value: Any) -> Any:
     if isinstance(value, str):
         return value.strip().lower()
     if isinstance(value, list):
-        return sorted(normalize_value(item) for item in value)
+        return sorted((normalize_value(item) for item in value),
+                      key=lambda item: json.dumps(item, sort_keys=True, ensure_ascii=False))
+    if isinstance(value, dict):
+        return {key: normalize_value(item) for key, item in value.items()}
     return value
 
 
@@ -352,7 +356,7 @@ def main() -> None:
     }
 
     out_path = args.runs_dir / f"{run_id}.json"
-    out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
+    out_path.write_text(json.dumps(redact_secrets(payload), ensure_ascii=False, indent=2, default=str), encoding="utf-8")
     print_table(results, summary)
     print(f"\nArtifact version: {artifact_version.artifact_version}")
     print(f"\nSaved: {out_path}")

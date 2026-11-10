@@ -41,7 +41,9 @@ class OpenAIProvider:
         if not api_key:
             raise RuntimeError(f"Missing API key env var: {self.api_key_env}")
 
-        client = OpenAI(api_key=api_key, base_url=self.base_url)
+        client = OpenAI(api_key=api_key, base_url=self.base_url,
+                        timeout=float(os.getenv("PROVIDER_TIMEOUT_SECONDS", "45")),
+                        max_retries=int(os.getenv("PROVIDER_MAX_RETRIES", "1")))
         kwargs: dict[str, Any] = {
             "model": model or self.default_model,
             "messages": messages,

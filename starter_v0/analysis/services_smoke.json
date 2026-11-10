@@ -1,0 +1,100 @@
+{
+  "generated_at": "2026-11-10T10:37:20.877936+07:00",
+  "kind": "real_service_smoke_not_model_eval",
+  "checks": [
+    {
+      "tool": "lookup",
+      "args": {
+        "query": "Python asyncio official documentation",
+        "topic": "general",
+        "timeframe": null,
+        "max_results": 1
+      },
+      "ok": true,
+      "result": {
+        "tool": "web_search",
+        "query": "Python asyncio official documentation",
+        "topic": "general",
+        "timeframe": null,
+        "items": [
+          {
+            "title": "asyncio — Asynchronous I/O — Python 3.15.2 documentation",
+            "url": "https://docs.python.org/3/library/asyncio.html",
+            "source": "docs.python.org",
+            "summary": "asyncio is used as a foundation for multiple Python asynchronous frameworks that provide high-performance network and web-servers, database connection libraries, distributed task queues, etc.\n\nasyncio is often a perfect fit for IO-bound and high-level structured network code.\n\nSee also\n\nA conceptual overview of asyncio\n:   Explanation of the fundamentals of asyncio.\n\nasyncio provides a set of high-level APIs to: [...] ### Navigation\n\n index\n modules |\n next |\n previous |\n Python »\n 3.15.2 documentation »\n The Python standard library »\n Networking and Interprocess Communication »\n `asyncio` — Asynchronous I/O\n |\n |\n\n# `asyncio` — Asynchronous I/O¶\n\nasyncio is a library to write concurrent code using the async/await syntax. [...] run Python coroutines concurrently and have full control over their execution;\n perform network IO and IPC;\n control subprocesses;\n distribute tasks via queues;\n synchronize concurrent code;\n\nFor introspection, asyncio provides APIs and tools for:\n\n inspecting the async call graph of tasks and futures;\n inspecting tasks in another running Python process with command-line tools;\n\nAdditionally, there are low-level APIs for library and framework developers to:",
+            "score": 0.85567063
+          }
+        ]
+      }
+    },
+    {
+      "tool": "fetch",
+      "args": {
+        "url": "https://docs.python.org/3/tutorial/"
+      },
+      "ok": true,
+      "result": {
+        "tool": "read_url",
+        "url": "https://docs.python.org/3/tutorial/",
+        "provider": "tavily_extract",
+        "items": [
+          {
+            "title": "The Python Tutorial — Python 3.15.2 documentation",
+            "url": "https://docs.python.org/3/tutorial/",
+            "source": "docs.python.org",
+            "summary": "### Navigation\n\n* [index](../genindex.html \"General Index\")\n* [modules](../py-modindex.html \"Python Module Index\") |\n* [next](appetite.html \"1. Whetting Your Appetite\") |\n* [previous](../whatsnew/changelog.html \"Changelog\") |\n* [Python](https://www.python.org/) »\n* [3.15.2 documentation](../index.html) »\n* The Python Tutorial\n* |\n* |\n\n# The Python Tutorial[¶](#the-python-tutorial \"Link to this heading\")\n\nTip\n\nThis tutorial is designed for *programmers* that are new to the Python language, **not** *beginners* who are new to programming.\n\nPython is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming. Python’s elegant syntax and dynamic typing, together with its interpreted nature, make it an ideal language for scripting and rapid application development in many areas on most platforms.\n\nThe Python interpreter and the extensive standard library are freely available in source or binary form for all major platforms from the Python website, <https://www.python.org/>, and may be freely distributed. The same site also contains distributions of and pointers to many free third party Python modules, programs and tools, and additional documentation.\n\nThe Python interpreter is easily extended with new functions and data types implemented in C or C++ (or other languages callable from C). Python is also suitable as an extension language for customizable applications.\n\nThis tutorial introduces the reader informally to the basic concepts and features of the Python language and system. Be aware that it expects you to have a basic understanding of programming in general. It helps to have a Python interpreter handy for hands-on experience, but all examples are self-contained, so the tutorial can be read off-line as well.\n\nFor a description of standard objects and modules, see [Python built-ins reference](../builtins/index.html#builtins-index) and [The Python standard library](../library/index.html#library-index). [The Python Language Reference](../reference/index.html#reference-index) gives a more formal definition of the language. To write extensions in C or C++, read [Extending and Embedding the Python Interpreter](../extending/index.html#extending-index) and [Python/C API reference manual](../c-api/index.html#c-api-index). There are also several books covering Python in depth.\n\nThis tutorial does not attempt to be comprehensive and cover every single feature, or even every commonly used feature. Instead, it introduces many of Python’s most noteworthy features, and will give you a good idea of the language’s flavor and style. After reading it, you will be able to read and write Python modules and programs, and you will be ready to learn more about the various Python library modules described in [The Python standard library](../library/index.html#library-index).\n\nThe [Glossary](../glossary.html#glossary) is also worth going through.\n\n* [1. Whetting Your Appetite](appetite.html)\n* [2. Using the Python Interpreter](interpreter.html)\n  + [2.1. Invoking the Interpreter](interpreter.html#invoking-the-interpreter)\n    - [2.1.1. Argument Passing](interpreter.html#argument-passing)\n    - [2.1.2. Interactive Mode](interpreter.html#interactive-mode)\n  + [2.2. The Interpreter and Its Environment](interpreter.html#the-interpreter-and-its-environment)\n    - [2.2.1. Source Code Encoding](interpreter.html#source-code-encoding)\n* [3. An Informal Introduction to Python](introduction.html)\n  + [3.1. Using Python as a Calculator](introduction.html#using-python-as-a-calculator)\n    - [3.1.1. Numbers](introduction.html#numbers)\n    - [3.1.2. Text](introduction.html#text)\n    - [3.1.3. Lists](introduction.html#lists)\n  + [3.2. First Steps Towards Programming](introduction.html#first-steps-towards-programming)\n* [4. More Control Flow Tools](controlflow.html)\n  + [4.1. `if` Statements](controlflow.html#if-statements)\n  + [4.2. `for` Statements](controlflow.html#f"
+          }
+        ]
+      }
+    },
+    {
+      "tool": "dedupe_sources",
+      "args": {
+        "items": [
+          {
+            "title": "A",
+            "url": "https://example.com/a"
+          },
+          {
+            "title": "Repeated A",
+            "url": "https://example.com/a"
+          },
+          {
+            "title": "B",
+            "url": "https://example.com/b"
+          }
+        ]
+      },
+      "ok": true,
+      "result": {
+        "tool": "dedupe_sources",
+        "items": [
+          {
+            "title": "A",
+            "url": "https://example.com/a"
+          },
+          {
+            "title": "B",
+            "url": "https://example.com/b"
+          }
+        ],
+        "input_count": 3,
+        "item_count": 2,
+        "duplicates_removed": 1
+      }
+    },
+    {
+      "tool": "timeline",
+      "args": {
+        "screenname": "sama",
+        "limit": 1
+      },
+      "ok": false,
+      "result": {
+        "tool": "get_user_tweets",
+        "error": "HTTPError",
+        "message": "403 Client Error: Forbidden for url: https://twitter-api45.p.rapidapi.com/timeline.php?screenname=sama"
+      }
+    }
+  ]
+}
