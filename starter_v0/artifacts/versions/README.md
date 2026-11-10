@@ -1,5 +1,12 @@
 # Prompt and tool declaration snapshots
 
+The selected cloud demo version is now **v7**. v3-recheck replays the exact v3
+artifacts after web-service keys were added. v4 adds prompt boundary examples;
+v5 tests clarification descriptions and is rejected; v6 replaces the lookup
+description and is rejected due a source-switch regression; v7 starts from v4
+and minimally prefixes the original lookup description. These are cloud
+optimization experiments, not the optional `v4-local`/`v5-local` challenge.
+
 Each version directory preserves the exact bytes supplied to the model. The
 corresponding run JSON records SHA-256 hashes for both files; these must match
 the snapshot rather than whichever files happen to be current in `artifacts/`.

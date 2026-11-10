@@ -50,10 +50,12 @@ Telegram là bonus. Bản cuối chặn gửi ở UI, CLI và eval runner, dù m
 
 ## 4. Kiểm thử và eval
 
+Artifact hiện tại là **v7** (base 85%, bộ nhóm 90% trong các run đã lưu). V0–v3 là lịch sử bắt buộc của lab; v4–v7 là các thử nghiệm bổ sung, không ghi đè lịch sử. Nếu máy không phân giải được gateway, thay `run_eval.py` trong lệnh bên dưới bằng `scripts/run_eval_live.py --dns-fallback`; đây vẫn là evaluator chuẩn, không sửa logic chấm.
+
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
-.\.venv\Scripts\python.exe run_eval.py --provider openai --model gemini-2.5-flash-lite --version v3 --suite base --eval-cases data/eval_base.json
-.\.venv\Scripts\python.exe run_eval.py --provider openai --model gemini-2.5-flash-lite --version v3 --suite group --eval-cases data/eval_group.json
+.\.venv\Scripts\python.exe run_eval.py --provider openai --model gemini-2.5-flash-lite --version v7 --suite base --eval-cases data/eval_base.json
+.\.venv\Scripts\python.exe run_eval.py --provider openai --model gemini-2.5-flash-lite --version v7 --suite group --eval-cases data/eval_group.json
 ```
 
 Mỗi lệnh eval gọi model/API thật. `--suite` chỉ là nhãn; `--eval-cases` chọn dữ liệu. Muốn tái chạy phiên bản cũ, chỉ định cả `--system-prompt artifacts/versions/<version>/system_prompt.md` và `--tools artifacts/versions/<version>/tools.yaml` để khớp hash. Tên phiên bản không tự khôi phục file.
@@ -83,7 +85,7 @@ Nếu DNS hệ thống không phân giải được gateway CKEY, thêm `--dns-f
 Mở `http://localhost:8501`. Khi prompt/tools đổi, tạo phiên mới để UI nạp snapshot mới. Transcript lưu trong `transcripts/` và có thể tải từ sidebar. Khóa bí mật được che trước khi lưu log; không chủ động nhập dữ liệu nhạy cảm vào chat.
 
 ```powershell
-.\.venv\Scripts\python.exe chat.py --provider openai --model gemini-2.5-flash-lite --version v3
+.\.venv\Scripts\python.exe chat.py --provider openai --model gemini-2.5-flash-lite --version v7
 ```
 
 Để chia sẻ demo tạm thời, chạy UI với `LAB_PUBLIC_DEMO=1`, `LAB_PROVIDER`, `LAB_MODEL`, `LAB_VERSION` trên máy chủ. Chế độ public khóa các lựa chọn provider/model/version và giới hạn vòng tool; không tự gửi Telegram. Sau đó mở tunnel theo hướng dẫn README:
@@ -95,6 +97,8 @@ cloudflared tunnel --url http://127.0.0.1:8501
 Link `trycloudflare.com` chỉ tồn tại khi máy chạy UI và tunnel còn hoạt động. Link ghi trong REPORT là kết quả của một phiên demo, không phải hosting thường trực.
 
 ## 6. Hoàn thiện phần nhóm
+
+Đối chiếu lần cuối theo [SUBMISSION_CHECKLIST.md](SUBMISSION_CHECKLIST.md).
 
 Hai thành viên còn lại tự bổ sung tên/MSSV vào REPORT; người dùng yêu cầu để trống các thông tin này trong lúc triển khai. Nhóm cần tự thử UI, đọc lại nguồn, kiểm tra kết quả và nộp repo lên LMS bằng tài khoản phù hợp. Các vai A/B/C của AI được ghi riêng với danh sách sinh viên.
 

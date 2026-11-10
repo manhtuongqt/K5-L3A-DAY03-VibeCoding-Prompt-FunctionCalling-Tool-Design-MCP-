@@ -1,0 +1,693 @@
+{
+  "run_id": "v7_B_group_openai_20261110T113724645731",
+  "version": "v7",
+  "artifact_version": "v7+p2d0663692961+ta78aedb0119c",
+  "prompt_hash": "2d0663692961d31d0354de48718f84d9933322c29f76051abc164bcd32908771",
+  "tools_hash": "a78aedb0119c666c60e9eb0cc180dae6a6a633dd7994817ec45d459f73e59370",
+  "phase": "B",
+  "suite": "group",
+  "provider": "openai",
+  "model": "gemini-2.5-flash-lite",
+  "system_prompt": "artifacts\\versions\\v7\\system_prompt.md",
+  "tools": "artifacts\\versions\\v7\\tools.yaml",
+  "eval_cases": "data\\eval_group.json",
+  "dataset_id": "day03_student_research_group",
+  "dataset_role": "group",
+  "description": "10 case bổ sung: 5 single turn, 5 multi turn. Không sửa base eval. Multi-turn chỉ chấm lượt cuối theo runner.",
+  "generated_at": "2026-11-10T11:37:24",
+  "summary": {
+    "total_cases": 10,
+    "measured_cases": 10,
+    "provider_error_cases": 0,
+    "passed_cases": 9,
+    "case_accuracy": 0.9,
+    "tool_routing_accuracy": 0.9,
+    "argument_accuracy": 0.9,
+    "multiturn_accuracy": 1.0,
+    "failure_counts": {
+      "missing_info": 1
+    },
+    "observed_mismatch_counts": {
+      "missing_tool_call": 1
+    }
+  },
+  "results": [
+    {
+      "id": "G01_dedupe_provided_sources",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Có dữ liệu sẵn và yêu cầu loại URL trùng: route tool mới, truyền đúng danh sách gốc và không lookup/fetch. Unit test kiểm tra output giữ item đầu/thứ tự."
+      },
+      "input": "Loại URL trùng khỏi danh sách này, giữ item đầu và không tra cứu thêm: [{\"title\":\"Nguồn A\",\"url\":\"https://example.com/a\"},{\"title\":\"A lặp\",\"url\":\"https://example.com/a\"},{\"title\":\"Nguồn B\",\"url\":\"https://example.com/b\"}]",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "dedupe_sources",
+            "args": {
+              "items": [
+                {
+                  "title": "Nguồn A",
+                  "url": "https://example.com/a"
+                },
+                {
+                  "title": "A lặp",
+                  "url": "https://example.com/a"
+                },
+                {
+                  "title": "Nguồn B",
+                  "url": "https://example.com/b"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "dedupe_sources",
+            "args": {
+              "items": [
+                {
+                  "title": "Nguồn A",
+                  "url": "https://example.com/a"
+                },
+                {
+                  "title": "A lặp",
+                  "url": "https://example.com/a"
+                },
+                {
+                  "title": "Nguồn B",
+                  "url": "https://example.com/b"
+                }
+              ]
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "dedupe_sources",
+          "args": {
+            "items": [
+              {
+                "title": "Nguồn A",
+                "url": "https://example.com/a"
+              },
+              {
+                "title": "A lặp",
+                "url": "https://example.com/a"
+              },
+              {
+                "title": "Nguồn B",
+                "url": "https://example.com/b"
+              }
+            ]
+          },
+          "result": {
+            "tool": "dedupe_sources",
+            "items": [
+              {
+                "title": "Nguồn A",
+                "url": "https://example.com/a"
+              },
+              {
+                "title": "Nguồn B",
+                "url": "https://example.com/b"
+              }
+            ],
+            "input_count": 3,
+            "item_count": 2,
+            "duplicates_removed": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_explicit_handle_limit",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Handle có @ phải bỏ @, giữ số lượng 2; không chuyển sang tìm theo chủ đề."
+      },
+      "input": "Lấy đúng 2 tweet mới nhất từ tài khoản @NASA.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "NASA",
+              "limit": 2
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "limit": 2,
+              "screenname": "nasa"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "limit": 2,
+            "screenname": "nasa"
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://twitter-api45.p.rapidapi.com/timeline.php?screenname=nasa"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_news_24hours",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "24 giờ gần đây là day, tin tức là news và giữ max_results=3.",
+        "baseline_failure_reference": "v0 R03 thiếu query trong lookup; R13 query bị mở rộng sai expectation. Case mới kiểm tra convention của news/timeframe/quantity với chủ đề khác."
+      },
+      "input": "Tìm 3 tin tức về pin xe điện trong 24 giờ gần đây trên web.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "timeframe": "day",
+              "max_results": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "max_results": 3,
+              "query": "pin xe điện",
+              "timeframe": "day",
+              "topic": "news"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "max_results": 3,
+            "query": "pin xe điện",
+            "timeframe": "day",
+            "topic": "news"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "pin xe điện",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "Pin ô tô điện sau 5 năm còn bao nhiêu dung lượng?",
+                "url": "https://daidoanket.vn/pin-o-to-dien-sau-5-nam-con-bao-nhieu-dung-luong.html",
+                "source": "daidoanket.vn",
+                "summary": "Một nguồn dữ liệu khác đến từ AVILOO, doanh nghiệp Áo chuyên kiểm tra tình trạng pin xe điện đã qua sử dụng. Theo báo cáo AVILOO Certified EV Battery Report được công bố năm 2026, hơn 500.000 lượt kiểm tra pin được sử dụng để phn tích 20 mẫu xe phổ biến tại các mốc 50.000, 100.000 và 150.000 km.\n\nKết quả cho thấy 16 trong số 20 mẫu xe được phn tích có chỉ số sức khỏe pin từ 90% trở lên sau 150.000 km. Bốn mẫu còn lại trong khoảng 85-90%. [...] Nhìn chung, dữ liệu từ Ford, Geotab và AVILOO cho thấy pin ô tô điện có thể duy trì phần lớn dung lượng sau nhiều năm sử dụng và quãng đường hàng trăm nghìn km. Tuy nhiên, tuổi thọ pin không có một con số cố định cho mọi mẫu xe. Với người mua ô tô điện đã qua sử dụng, kết quả kiểm tra tình trạng pin của chính chiếc xe định mua vẫn có giá trị hơn những con số trung bình của cả một nhóm xe.\n\nThủy Nguyễn [...] Tuy nhiên, đy là kết quả do Ford thu thập từ hệ thống dữ liệu xe kết nối của hãng, trên một mẫu xe sử dụng pin lithium nickel mangan cobalt (NCM). Kết quả phản ánh tình trạng của nhóm Mustang Mach-E đời 2021, không thể đại diện cho tất cả ô tô điện trên thị trường.\n\nTài xế David Blenkle và chiếc Mustang Mach-E được ông sử dụng trong dịch vụ chở khách tại California, Mỹ. Đy là trường hợp xe điện vận hành với cường độ cao trong thực tế. Ảnh: Ford.\n\n## Pin xe điện suy giảm như thế nào?",
+                "score": 0.6485337
+              },
+              {
+                "title": "Độ bền pin Ford Mustang Mach-E: 5 năm còn 92%, 640.000km chưa thay pin",
+                "url": "https://autopro.com.vn/ford-mustang-mach-e-co-do-ben-pin-dang-ne-5-nam-van-con-92-dung-luong-co-chiec-chay-hon-640000km-chua-thay-pin-177261110061347917.chn",
+                "source": "autopro.com.vn",
+                "summary": "Những kết quả trên cho thấy pin ô tô điện không nhất thiết suy giảm nhanh theo số năm sử dụng hoặc quãng đường di chuyển. Tuy nhiên, đy là dữ liệu do Ford thu thập trên một dòng xe cụ thể, không nên xem là mức độ chai pin đại diện cho toàn bộ ô tô điện trên thị trường.\n\n### Ford sẽ cải thiện pin ở thế hệ xe điện mới [...] Theo Kevin Vander Laan, lãnh đạo kỹ thuật phụ trách pin điện áp cao và hệ thống pin của Ford, dữ liệu thu thập từ hơn 36.000 chiếc xe trong hơn 5 năm là nguồn thông tin có giá trị đối với quá trình phát triển sản phẩm.\n\nThay vì chỉ dựa vào các bài kiểm tra trong phòng thí nghiệm, hãng có thể theo dõi cách pin hoạt động trong điều kiện sử dụng thực tế, từ đó cải thiện hệ thống quản lý pin, phần mềm hướng dẫn sạc và các chương trình phát triển xe điện trong tương lai. [...] Những nghiên cứu trên Mustang Mach-E là tiền đề cho Ford nng cấp pin của các mẫu xe điện sau này. Ảnh minh họa: Đại lý\n\nMustang Mach-E là mẫu xe điện thương mại hiện đại đầu tiên của Ford, được phát triển nhằm cạnh tranh với Tesla Model 3 và Model Y. Xe sử dụng nền tảng Global Electrified 1, với các phiên bản pin tiêu chuẩn và pin dung lượng lớn trong giai đoạn đầu.",
+                "score": 0.5423064
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_missing_article_url",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Thiếu URL phải hỏi lại, không tự tìm một bài thay thế.",
+        "baseline_failure_reference": "v0 R11_missing_url không gọi clarify."
+      },
+      "input": "Đọc và tóm tắt bài tôi nói tới, nhưng tôi chưa gửi đường dẫn.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [],
+        "actual_text": "Xin vui lòng gửi cho tôi đường dẫn của bài viết bạn muốn tôi đọc và tóm tắt.",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "missing_info",
+        "failures": [
+          "missing tool call clarify"
+        ]
+      },
+      "tool_results": []
+    },
+    {
+      "id": "G05_out_of_scope_code",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Yêu cầu viết code ngoài phạm vi research: không gọi tool. Chất lượng từ chối cần đọc tay.",
+        "baseline_failure_reference": "v0 R14_out_of_scope_coding gọi send để trả lời thay vì không dùng tool."
+      },
+      "input": "Viết chương trình C++ sắp xếp mảng bằng quicksort giúp tôi.",
+      "expect": {
+        "no_tool": true,
+        "behavior": "refuse"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Tôi có thể nghiên cứu và tóm tắt các nguồn tài liệu, nhưng việc tự viết mã C++ nằm ngoài phạm vi của tác nhân này.",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "G06_correct_account",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Sửa tài khoản phải thay giá trị cũ nhưng giữ limit đã yêu cầu."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 4 tweet mới nhất của @sama."
+        },
+        {
+          "role": "user",
+          "content": "Tôi sửa lại, tài khoản cần xem là @karpathy."
+        },
+        {
+          "role": "user",
+          "content": "Giữ số lượng 4, chỉ xem tài khoản đã sửa."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy",
+              "limit": 4
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "limit": 4,
+              "screenname": "karpathy"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "limit": 4,
+            "screenname": "karpathy"
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://twitter-api45.p.rapidapi.com/timeline.php?screenname=karpathy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G07_clarify_then_account",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Lượt sau bổ sung slot thiếu; không hỏi lại khi đã đủ dữ liệu."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt 3 tweet mới nhất giúp tôi."
+        },
+        {
+          "role": "user",
+          "content": "Tài khoản là @NASA."
+        },
+        {
+          "role": "user",
+          "content": "Chỉ lấy đúng 3 tweet của tài khoản đó."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "NASA",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "limit": 3,
+              "screenname": "NASA"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "limit": 3,
+            "screenname": "NASA"
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://twitter-api45.p.rapidapi.com/timeline.php?screenname=NASA"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G08_switch_source_keep_period",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Đổi nguồn sang web phải đổi tool, giữ timeframe=month, không tiếp tục social_search.",
+        "baseline_failure_reference": "v0 M06_switch_tool vẫn chọn social_search sau khi người dùng chuyển sang web; M02 cũng chọn social_search cho tin trên web."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm tweet về năng lượng tái tạo trong tháng này."
+        },
+        {
+          "role": "user",
+          "content": "Bỏ Twitter, tôi chỉ cần tin tức trên web."
+        },
+        {
+          "role": "user",
+          "content": "Giữ chủ đề và khoảng thời gian tháng này."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "timeframe": "month"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "năng lượng tái tạo",
+              "timeframe": "month",
+              "topic": "news"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "năng lượng tái tạo",
+            "timeframe": "month",
+            "topic": "news"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "năng lượng tái tạo",
+            "topic": "news",
+            "timeframe": "month",
+            "items": [
+              {
+                "title": "Bài 1: Điện gió ngoài khơi và hạ tầng năng lượng tái tạo quy mô lớn",
+                "url": "https://nhandan.vn/bai-1-dien-gio-ngoai-khoi-va-ha-tang-nang-luong-tai-tao-quy-mo-lon-post994875.html",
+                "source": "nhandan.vn",
+                "summary": "Chuyển đổi năng lượng là một cuộc cách mạng về công nghệ, đồng thời là bài toán về kiến tạo thể chế, quy hoạch không gian biển và xy dựng chính sách dài hạn.\n\nĐan Mạch, một quốc gia có quy mô dn số khiêm tốn và chỉ đóng góp khoảng 0,1% tổng lượng phát thải khí nhà kính toàn cầu, nhưng là đất nước dẫn dắt thế giới trong lĩnh vực năng lượng tái tạo nhờ tầm nhìn kiên định và năng lực tổ chức hiệu quả. [...] Ông Mikkel Vinter Henriksen khẳng định, chìa khóa thành công của các mô hình năng lượng tái tạo tại Đan Mạch nằm ở 3 yếu tố: mục tiêu dài hạn đáng tin cậy, quy trình cấp phép minh bạch và cơ chế chia sẻ rủi ro hợp lý giữa nhà nước và nhà đầu tư tư nhn. [...] Bối cảnh đầy thách thức ấy đã buộc Đan Mạch phải đưa ra một quyết tm chính trị mạnh mẽ nhằm đa dạng hóa nguồn cung năng lượng, chuyển dịch từ dầu mỏ sang than đá trong ngắn hạn nhưng chủ động hướng tới chủ trương kiến tạo thị trường năng lượng tái tạo dài hạn.",
+                "score": 0.74541736
+              },
+              {
+                "title": "Nghị quyết 70 thúc đẩy Tây Ninh trở thành trung tâm năng lượng tái tạo",
+                "url": "https://www.vietnamplus.vn/nghi-quyet-70-mo-duong-cho-tay-ninh-but-pha-thanh-trung-tam-nang-luong-tai-tao-post1142523.vnp",
+                "source": "vietnamplus.vn",
+                "summary": "Việc hoàn thiện khung pháp lý cùng các công cụ tài chính xanh sẽ tạo thêm điều kiện để doanh nghiệp đầu tư cải tiến công nghệ, nng cao hiệu quả sử dụng năng lượng mà không nhất thiết phải sử dụng toàn bộ nguồn vốn tự có.\n\nĐể các dự án năng lượng tái tạo đi vào thực tế, Ty Ninh cần giải quyết đồng bộ những vướng mắc về thủ tục đầu tư, đất đai, giải phóng mặt bằng và hạ tầng truyền tải. Đy cũng là những yếu tố quyết định hiệu quả khai thác nguồn điện và khả năng thu hút nhà đầu tư. [...] Pin năng lượng mặt trời giúp Ty Ninh khai thác lợi thế về nắng, gió, quỹ đất… để phát triển năng lượng tái tạo. (Ảnh: Minh Phú/TTXVN) [...] Từ khai thác hiệu quả các nguồn điện hiện hữu đến mở rộng không gian đầu tư trên đất liền và mặt nước, địa phương đang từng bước định hình hướng phát triển năng lượng gắn với tăng trưởng xanh.\n\nKhi những điểm nghẽn về cơ chế, thủ tục và hạ tầng được tháo gỡ, lợi thế tự nhiên sẽ có thêm điều kiện chuyển hóa thành nguồn lực phát triển, góp phần nng cao sức cạnh tranh của công nghiệp và hiện thực hóa mục tiêu đưa Ty Ninh trở thành trung tm năng lượng tái tạo của vùng./.",
+                "score": 0.7327644
+              },
+              {
+                "title": "Gắn phát triển năng lượng tái tạo với thu hút đầu tư và tăng trưởng tại địa phương - Báo và phát thanh, truyền hình Quảng Trị",
+                "url": "https://baoquangtri.vn/chinh-tri/202610/gan-phat-trien-nang-luong-tai-tao-voi-thu-hut-dau-tu-va-tang-truong-tai-dia-phuong-4fd3140",
+                "source": "baoquangtri.vn",
+                "summary": "dụng điện với nguồn năng lượng tái tạo bằng cơ chế thị trường minh bạch. Khi điện xanh trở thành lợi thế để doanh nghiệp quyết định đầu tư dài hạn, các địa phương như Quảng Trị chúng tôi sẽ có thêm việc làm, nguồn thu ngn sách và động lực mới nhằm đạt mục tiêu tăng trưởng 2 con số như mục tiêu đã đề ra, đồng thời đóng góp hiệu quả vào an ninh năng lượng quốc gia. Kính đề nghị Chính phủ và các cơ quan liên quan quan tm cụ thể hóa trong định hướng chính sách và tổ chức thực hiện. Xin trn trọng [...] tải-lưu trữ, trong đó thu hút phụ tải mới phải được xem là một cấu phần của quy hoạch và phát triển hệ thống điện. Nếu giải quyết được đồng thời bài toán nguồn điện-lưới điện-phụ tải-lưu trữ và cơ chế tiếp cận điện xanh, chúng ta có thể chuyển năng lượng tái tạo từ một lợi thế về tài nguyên thành lợi thế về đầu tư, việc làm, nguồn thu và tăng trưởng. Kính thưa các vị đại biểu, Hai kiến nghị trên nhằm thu hút sản xuất, dịch vụ có giá trị gia tăng cao và kết nối nhu cầu sử dụng điện với nguồn [...] hút đầu tư, hình thành phụ tải mới và tạo giá trị gia tăng ngay tại địa phương, để một địa phương có tiềm năng rất lớn về năng lượng tái tạo có thể chuyển thành lợi thế cạnh tranh trong thu hút đầu tư; đồng thời, tiếp tục đóng góp nguồn cung cho hệ thống điện quốc gia. Trên tinh thần Nghị quyết số 70-NQ/TW của Bộ Chính trị, tôi xin kiến nghị hai vấn đề: Thu hút sản xuất, dịch vụ sử dụng điện xanh và hoàn thiện cơ chế để doanh nghiệp tiếp cận điện xanh bằng hợp đồng tin cậy cho đầu tư dài hạn.",
+                "score": 0.7279179
+              },
+              {
+                "title": "Cà Mau phát huy lợi thế biển, hướng tới Trung tâm năng lượng tái tạo vùng Đồng bằng sông Cửu Long",
+                "url": "https://tapchicongthuong.vn/ca-mau-phat-huy-loi-the-bien--huong-toi-trung-tam-nang-luong-tai-tao-vung-dong-bang-song-cuu-long-560083.htm",
+                "source": "tapchicongthuong.vn",
+                "summary": "Phát triển Trung tm năng lượng tái tạo đòi hỏi nguồn nhn lực đáp ứng yêu cầu công nghệ. Cà Mau cần tăng cường liên kết giữa doanh nghiệp và cơ sở đào tạo, chú trọng các ngành điện, cơ khí, tự động hóa, khảo sát biển, logistics và bảo dưỡng thiết bị, tạo cơ hội để lao động địa phương tham gia su hơn vào chuỗi giá trị năng lượng. [...] Để nng cao khả năng khai thác năng lượng tái tạo, tỉnh cần quan tm đầu tư hệ thống lưu trữ, lưới điện thông minh và công nghệ điều độ hiện đại. Những giải pháp này góp phần cn bằng cung - cầu, nng khả năng hấp thụ điện gió, điện mặt trời và hạn chế lãng phí nguồn điện. [...] Để hình thành Trung tm năng lượng tái tạo, tỉnh Cà Mau cần đồng bộ quy hoạch nguồn điện với hạ tầng truyền tải, giao thông, cảng biển và logistics. Tỉnh cần rà soát nhu cầu đầu tư lưới điện 220 KV, 500 KV và hệ thống đấu nối, bảo đảm phù hợp với quy mô, vị trí và tiến độ các dự án, hạn chế tình trạng nguồn điện hoàn thành nhưng chưa thể khai thác hết công suất.",
+                "score": 0.7173491
+              },
+              {
+                "title": "Tây Ninh khai thác tiềm năng năng lượng tái tạo, thúc đẩy chuyển đổi xanh",
+                "url": "https://moitruong.net.vn/tay-ninh-khai-thac-tiem-nang-nang-luong-tai-tao-thuc-day-chuyen-doi-xanh-103331.html",
+                "source": "moitruong.net.vn",
+                "summary": "Với điều kiện tự nhiên thuận lợi, Ty Ninh đang đẩy mạnh khai thác tiềm năng năng lượng tái tạo, từng bước đa dạng hóa nguồn cung điện phục vụ sản xuất và phát triển kinh tế - xã hội.",
+                "score": 0.70580584
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G09_correct_article_url",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "URL sửa ở lượt sau thay URL cũ, không fetch hai URL. example.com là dữ liệu case, không giả làm nguồn tin thật."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Đọc bài này: https://example.com/old."
+        },
+        {
+          "role": "user",
+          "content": "Tôi gửi nhầm, dùng https://example.com/new thay thế."
+        },
+        {
+          "role": "user",
+          "content": "Chỉ đọc đúng link mới, không tìm thêm."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://example.com/new"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://example.com/new"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://example.com/new"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://example.com/new",
+            "items": [
+              {
+                "title": "Example Domain",
+                "url": "https://example.com/new",
+                "source": "example.com",
+                "summary": "This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes.\n\nهذا النطاق مُخصص للاستخدام في أمثلة التوثيق دون الحاجة إلى إذن. هذه ليست خدمة، يُرجى تجنب الاعتماد عليها لأغراض الاختبار والمراقبة.\n\n该域名仅用于文档示例，无需获得许可。这并非一项服务，请勿将其用于测试和监控目的。\n\nL’usage de ce domaine est réservé à des exemples de documentation, sans autorisation préalable. Il ne s’agit pas d’un service ; son utilisation à des fins de test ou de surveillance est à éviter.\n\nДанный домен предназначен для использования в примерах документации без необходимости получения предварительного разрешения. Это не сервис; не рекомендуется его использование для тестирования и мониторинга.\n\nEste dominio está destinado al uso en ejemplos de documentación sin necesidad de permiso. Esto no es un servicio; evitar utilizarlo para realizar pruebas o monitoreos.\n\n [Learn more](https://iana.org/help/example-domains)"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G10_cancel_publication",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Hủy hành động phải có hiệu lực: không send, không hỏi xác nhận lại hoặc tra cứu thừa. Nội dung trả lời cần đọc tay.",
+        "baseline_failure_reference": "v0 R12_confirm_before_send không gọi clarify. Case mới mở rộng boundary sang việc người dùng hủy yêu cầu."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tôi định gửi bản tin lên Telegram."
+        },
+        {
+          "role": "user",
+          "content": "Chưa xác nhận gửi, tôi muốn hủy."
+        },
+        {
+          "role": "user",
+          "content": "Không gửi hoặc tra cứu gì nữa. Chỉ nói đã hủy yêu cầu."
+        }
+      ],
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Đã hủy. Tôi sẽ không gửi bất kỳ thông tin nào.",
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    }
+  ]
+}

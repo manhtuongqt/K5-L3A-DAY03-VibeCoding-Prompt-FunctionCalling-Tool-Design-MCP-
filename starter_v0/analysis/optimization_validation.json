@@ -1,0 +1,11 @@
+{
+  "stage": "after promoting v7 artifacts",
+  "command": ".venv/Scripts/python.exe -m pytest -q",
+  "exit_code": 0,
+  "passed": 147,
+  "failed": 0,
+  "skipped": 0,
+  "elapsed_seconds": 8.45,
+  "record_kind": "summary recorded from observed terminal execution",
+  "ui_evidence": "analysis/v7_ui_live_check.json"
+}

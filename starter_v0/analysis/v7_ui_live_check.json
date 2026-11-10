@@ -1,0 +1,12 @@
+{
+  "interface": "Chrome browser on public Cloudflare URL, real model API",
+  "version": "v7",
+  "artifact_version": "v7+p2d0663692961+ta78aedb0119c",
+  "status": "answered",
+  "transcript": "transcripts/ui_v7_openai_20261110T114110309082.transcript.json",
+  "tool_names": [
+    "dedupe_sources"
+  ],
+  "page_errors": [],
+  "elapsed_seconds": 7.344
+}

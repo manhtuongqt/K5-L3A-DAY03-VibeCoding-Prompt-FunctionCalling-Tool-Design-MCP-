@@ -3,6 +3,7 @@
 ## Thông tin bài làm
 
 - Repository làm việc: <https://github.com/manhtuongqt/Day03-Prompt-Engineering-Tool-Calling-Labs-student>.
+- Phiên bản demo hiện tại: **v7**; các snapshot và run cũ vẫn được giữ.
 - Thành viên 1: Nguyễn Mạnh Tường — 2A202603646.
 - Thành viên 2:
 - Thành viên 3:
@@ -76,6 +77,26 @@ Runner tính accuracy trên `measured_cases`, loại `provider_error`; vì vậy
 
 Từ v0 đến v3, số case pass tăng từ 9/20 lên 15/20, tương ứng tăng 30 điểm phần trăm. Kết quả không tăng đều ở từng metric: routing v2 là 80% rồi giảm còn 75% ở v3. Multi-turn 100% ở v3 chỉ là 6/6 case context của bộ base, không chứng minh agent an toàn hoặc đúng với mọi hội thoại.
 
+### Tối ưu bổ sung sau v3
+
+Các phiên bản v0–v3 và dữ liệu eval được giữ nguyên. Chạy lại đúng artifact v3 với key web mới vẫn đạt 15/20, cùng năm case lỗi trước đó. Các thử nghiệm sau dùng cùng gateway/model ID, temperature 0, grader và bộ base; chỉ sửa prompt hoặc mô tả công cụ. `scripts/run_eval_live.py --dns-fallback` gọi lại evaluator chuẩn, chỉ thêm tùy chọn phục hồi DNS trong tiến trình, không thay đổi lời gọi quan sát được hoặc đáp án chấm. [Preflight](../analysis/optimization_preflight.txt).
+
+| Phiên bản | Thay đổi so với bản cha | Base | Routing | Multi-turn | Provider error | Run |
+|---|---|---|---|---|---|---|
+| v3-recheck | none; exact v3 artifact replay | 15/20 = 75% | 75% | 100% | 0 | [v3-recheck_B_base_openai_20261110T112819064172.json](../runs/v3-recheck_B_base_openai_20261110T112819064172.json) |
+| v4 | system_prompt.md: boundary few-shot examples | 16/20 = 80% | 80% | 100% | 0 | [v4_B_base_openai_20261110T113007535154.json](../runs/v4_B_base_openai_20261110T113007535154.json) |
+| v5 | tools.yaml: clarify descriptions only | 15/20 = 75% | 75% | 100% | 0 | [v5_B_base_openai_20261110T113202496274.json](../runs/v5_B_base_openai_20261110T113202496274.json) |
+| v6 | tools.yaml: replace lookup description only | 16/20 = 80% | 80% | 83% | 0 | [v6_B_base_openai_20261110T113429437991.json](../runs/v6_B_base_openai_20261110T113429437991.json) |
+| v7 | tools.yaml: minimal lookup scope prefix only | 17/20 = 85% | 85% | 100% | 0 | [v7_B_base_openai_20261110T113628328566.json](../runs/v7_B_base_openai_20261110T113628328566.json) |
+
+Chọn **v7** cho artifact hiện tại và demo: base **17/20 (85%)**, tăng 10 điểm phần trăm so với v3. V5 bị loại vì giảm điểm; v6 sửa được toán nhưng làm sai M06 chuyển nguồn, nên v7 chỉ thêm giới hạn vào mô tả `lookup` gốc. V6 và v7 đều đi từ v4, không tiếp tục các thay đổi clarification của v5. Các run không cải thiện vẫn được nộp đầy đủ.
+
+V7 sửa được R08 (giải toán) và R14 (viết code); các case chuyển ngữ cảnh của base đạt 6/6. Ba case còn sai là R10, R11, R12: model hỏi bằng văn bản thay vì gọi `clarify`; R10 vẫn hỏi chủ đề thay vì tài khoản. R12 hỏi nội dung/xác nhận bằng văn bản, chưa đạt giao thức của ứng dụng. Không sửa grader hay thêm lời gọi giả để đổi các FAIL này thành PASS.
+
+Bộ nhóm v7 đạt **9/10 (90%)**, multi-turn 5/5. G05 ngoài phạm vi và G10 hủy gửi đã PASS; G04 thiếu URL lại hỏi bằng văn bản nên FAIL. Đây là bộ case đã dùng trong quá trình phát triển, không phải kiểm chứng trên dữ liệu hoàn toàn mới. [Run nhóm v7](../runs/v7_B_group_openai_20261110T113724645731.json).
+
+Trong base v7 có 8/15 lời gọi công cụ trả error. Routing/arguments PASS không chứng minh dịch vụ lấy được dữ liệu hoặc nội dung đúng; các lỗi Twitter và URL không truy cập được vẫn giữ trong log. Mỗi phiên bản chỉ có một lượt đo đầy đủ; chưa có khoảng tin cậy hay kết luận độ ổn định dài hạn. [So sánh từng case](../analysis/optimization_case_comparison.csv), [kiểm tra snapshot và dữ liệu gốc](../analysis/optimization_integrity.json).
+
 ## B2. Failure Analysis
 
 | Case | Loại lỗi | Tool call thật | Điều sai | Cách sửa và bằng chứng |
@@ -109,6 +130,8 @@ Giới hạn phép chấm: eval gốc chấm tập tool call trong một lượt
 
 ## B3. Eval riêng của nhóm
 
+Kết quả cập nhật **v7: 9/10 (90%)**, multi-turn 5/5; G04 còn sai protocol hỏi lại. Các bảng v3 bên dưới là bằng chứng lịch sử, không bị ghi đè.
+
 `data/eval_group.json` có đúng 10 case: 5 single turn và 5 multi turn. Không thay đổi `eval_base.json`.
 
 Case mới được đối chiếu với lỗi v0 thật: G04 kiểm tra lại thiếu URL của R11; G05 mở rộng lỗi tool thừa ở R14; G08 kiểm tra chuyển nguồn như lỗi M06; G03 kiểm tra convention arguments sau lỗi R03/R13; G10 mở rộng ranh giới hành động từ R12 sang việc hủy gửi. Các case còn lại kiểm tra tool mới hoặc tình huống sửa thông tin khác, không được mô tả là lỗi đã quan sát nếu baseline chưa gặp.
@@ -133,6 +156,8 @@ G01 kiểm tra cả routing và danh sách `items` mà model truyền cho tool m
 ## B4. Hội thoại thật và UI
 
 ### Giao diện Research Desk sau khi thiết kế lại
+
+Bản demo hiện tại đã chuyển sang **v7** sau khi kiểm tra base và bộ nhóm. [Kiểm tra UI v7 qua Chrome trên link Cloudflare](../analysis/v7_ui_live_check.json): không có lỗi JavaScript, model gọi `dedupe_sources` và trả lời thật trong khoảng 7,3 giây. [Transcript v7](../transcripts/ui_v7_openai_20261110T114110309082.transcript.json), [ảnh kết quả](../analysis/v7_ui_result.png). Các bằng chứng v3 bên dưới được giữ như lịch sử trước khi tối ưu tiếp.
 
 Đã kiểm tra bằng Chrome thật ở viewport máy tính 1440×1000 và điện thoại 390×844; không có lỗi JavaScript hoặc tràn ngang. Ba nút mẫu chỉ điền nháp để người dùng sửa và gửi. Tiến trình dùng callback từ công cụ thực thi, không mô phỏng hoạt động. Liên kết lấy từ kết quả tool; URL đầu vào của công cụ loại trùng chưa được coi là nội dung đã đọc/xác minh. Provider/model/version bị khóa khi chia sẻ công khai; mỗi lượt tối đa 4.000 ký tự và 4 vòng công cụ. Key nằm trên máy chủ, transcript có redaction. Mở trang hoặc chọn mẫu không gọi model.
 
@@ -160,6 +185,8 @@ UI được kiểm tra bằng Streamlit AppTest gọi model thật: 0 exception,
 Phiên demo công khai khóa provider/model/version, giới hạn 4 vòng tool và 4.000 ký tự input. Transcript lưu theo phiên và che key. Không gửi Telegram. Một lượt CLI tìm web gặp rate limit và model đã báo lỗi thay vì tạo nguồn giả.
 
 ## B5. Tool và test
+
+Sau khi chọn artifact v7, chạy lại toàn suite: **147 passed, 0 failed, 0 skipped**. [Tóm tắt kết quả quan sát từ terminal](../analysis/optimization_validation.json).
 
 | Hạng mục | Bằng chứng | Trạng thái |
 |---|---|---|

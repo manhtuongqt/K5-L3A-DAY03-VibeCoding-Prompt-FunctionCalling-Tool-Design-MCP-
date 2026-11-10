@@ -1,10 +1,9 @@
 tools:
 - name: clarify
-  description: Ask one question and pause until the next user turn. REQUIRED control tool when an essential
-    account, article URL or topic is missing, or before publishing without explicit prior approval. Call
-    this function to ask; a plain-text question is not this control step. Missing input uses response_type=text;
-    publication approval uses yes_no, even if content must also be requested. Never guess the missing
-    value or publish from this tool.
+  description: Ask one question and pause until the next user turn. REQUIRED control tool when an essential account,
+    article URL or topic is missing, or before publishing without explicit prior approval. Call this function to
+    ask; a plain-text question is not this control step. Missing input uses response_type=text; publication approval
+    uses yes_no, even if content must also be requested. Never guess the missing value or publish from this tool.
   parameters:
     type: object
     properties:
@@ -19,8 +18,7 @@ tools:
         - yes_no
         - choice
         default: text
-        description: text for missing facts; yes_no for external-action confirmation; choice for supplied
-          options.
+        description: text for missing facts; yes_no for external-action confirmation; choice for supplied options.
       options:
         type: array
         default: []
@@ -30,30 +28,30 @@ tools:
     required:
     - question
 - name: timeline
-  description: 'Read recent posts BY one named account. Use for that account''s latest posts, not general
-    reactions ABOUT a topic (social_search), web news (lookup), or unknown accounts (clarify). Use the
-    canonical handle without @, not a display name. Common known mappings: Sam Altman=sama; Elon Musk=elonmusk;
-    Andrej Karpathy=karpathy. Do not invent a handle for an ambiguous person.'
+  description: 'Read recent posts BY one named account. Use for that account''s latest posts, not general reactions
+    ABOUT a topic (social_search), web news (lookup), or unknown accounts (clarify). Use the canonical handle without
+    @, not a display name. Common known mappings: Sam Altman=sama; Elon Musk=elonmusk; Andrej Karpathy=karpathy.
+    Do not invent a handle for an ambiguous person.'
   parameters:
     type: object
     properties:
       screenname:
         type: string
         default: ''
-        description: Canonical account handle without @. Not a human display name. Reuse the latest corrected
-          account from context.
+        description: Canonical account handle without @. Not a human display name. Reuse the latest corrected account
+          from context.
       limit:
         type: integer
         default: 5
-        description: Number of posts requested by the user; carry the latest corrected count. Default
-          5; integer 0 means no results.
+        description: Number of posts requested by the user; carry the latest corrected count. Default 5; integer
+          0 means no results.
     required:
     - screenname
 - name: social_search
-  description: Search Twitter/X posts ABOUT a topic across accounts. Not a single person's timeline or
-    web news. Use exactly one search per requested topic/source unless the user separately requests both
-    ranking modes. Latest is the default for current discussion; Top only for explicit popular/top requests.
-    Do not call this after the user switches away from Twitter.
+  description: Search Twitter/X posts ABOUT a topic across accounts. Not a single person's timeline or web news.
+    Use exactly one search per requested topic/source unless the user separately requests both ranking modes. Latest
+    is the default for current discussion; Top only for explicit popular/top requests. Do not call this after the
+    user switches away from Twitter.
   parameters:
     type: object
     properties:
@@ -67,8 +65,8 @@ tools:
         - Latest
         - Top
         default: Latest
-        description: Latest for recent/current discussion; Top only when user explicitly asks popular/top.
-          Use one mode unless both are requested.
+        description: Latest for recent/current discussion; Top only when user explicitly asks popular/top. Use one
+          mode unless both are requested.
       limit:
         type: integer
         default: 5
@@ -76,18 +74,21 @@ tools:
     required:
     - query
 - name: lookup
-  description: Search WEB information or news. Not Twitter posts, an already supplied article URL, or
-    a request without a topic. Always supply a nonempty query containing the user's topic; source/time
-    modifiers belong in topic/timeframe, not extra query words. For example news about climate today uses
-    query=climate, topic=news, timeframe=day. Do not invent sources or search when fetch is requested.
+  description: 'Do NOT use this tool to solve standalone mathematical calculations, integrals, derivatives, or to
+    write code. Such requests are outside this research agent: reply in plain text with no tool calls. Researching
+    external sources about those subjects is allowed when explicitly requested. Search WEB information or news.
+    Not Twitter posts, an already supplied article URL, or a request without a topic. Always supply a nonempty query
+    containing the user''s topic; source/time modifiers belong in topic/timeframe, not extra query words. For example
+    news about climate today uses query=climate, topic=news, timeframe=day. Do not invent sources or search when
+    fetch is requested.'
   parameters:
     type: object
     properties:
       query:
         type: string
         default: ''
-        description: REQUIRED nonempty topic phrase from the user. Do not append news/today/this week
-          when topic/timeframe already encode them; preserve the actual subject.
+        description: REQUIRED nonempty topic phrase from the user. Do not append news/today/this week when topic/timeframe
+          already encode them; preserve the actual subject.
       topic:
         type: string
         enum:
@@ -103,8 +104,8 @@ tools:
         - month
         - year
         default: week
-        description: day=today/24 hours; week=this week; month=this month; year=this year. Carry it from
-          context until corrected.
+        description: day=today/24 hours; week=this week; month=this month; year=this year. Carry it from context
+          until corrected.
       max_results:
         type: integer
         default: 5
@@ -112,23 +113,22 @@ tools:
     required:
     - query
 - name: fetch
-  description: Read the exact article URL supplied by the user or previously retrieved. Use for summarizing
-    that page, not discovery/search. If the URL is absent, call clarify instead. Preserve the active URL
-    after the user's latest correction; never invent a URL.
+  description: Read the exact article URL supplied by the user or previously retrieved. Use for summarizing that
+    page, not discovery/search. If the URL is absent, call clarify instead. Preserve the active URL after the user's
+    latest correction; never invent a URL.
   parameters:
     type: object
     properties:
       url:
         type: string
         default: ''
-        description: Exact active http(s) article URL supplied in the conversation; preserve path/query
-          after corrections.
+        description: Exact active http(s) article URL supplied in the conversation; preserve path/query after corrections.
     required:
     - url
 - name: format
-  description: Format items already supplied by the user or returned by read tools as a markdown digest.
-    Does not search, fetch, verify or send. Preserve source facts and URLs; do not create missing items.
-    Obtain source results before formatting them.
+  description: Format items already supplied by the user or returned by read tools as a markdown digest. Does not
+    search, fetch, verify or send. Preserve source facts and URLs; do not create missing items. Obtain source results
+    before formatting them.
   parameters:
     type: object
     properties:
@@ -167,11 +167,10 @@ tools:
     - items
     - template
 - name: send
-  description: 'Publish supplied text to the configured Telegram destination. This is an external write.
-    Only call after the user explicitly approves the exact content and destination in a later turn, and
-    set confirmed=true. A request to publish, a guessed approval, or a request to skip confirmation is
-    not sufficient: call clarify(response_type=yes_no) first. Do not use to answer questions, draft messages
-    or deliver ordinary chat text.'
+  description: 'Publish supplied text to the configured Telegram destination. This is an external write. Only call
+    after the user explicitly approves the exact content and destination in a later turn, and set confirmed=true.
+    A request to publish, a guessed approval, or a request to skip confirmation is not sufficient: call clarify(response_type=yes_no)
+    first. Do not use to answer questions, draft messages or deliver ordinary chat text.'
   parameters:
     type: object
     properties:
@@ -182,14 +181,14 @@ tools:
       confirmed:
         type: boolean
         default: false
-        description: Boolean true only after explicit prior user confirmation of this specific action.
-          Never infer consent.
+        description: Boolean true only after explicit prior user confirmation of this specific action. Never infer
+          consent.
     required:
     - text
 - name: policy
-  description: Search the repository's internal company-policy markdown. Use only for questions about
-    those company rules; not assistant identity/capabilities, general facts, web news, mathematics or
-    coding. It cannot establish external legal or factual claims.
+  description: Search the repository's internal company-policy markdown. Use only for questions about those company
+    rules; not assistant identity/capabilities, general facts, web news, mathematics or coding. It cannot establish
+    external legal or factual claims.
   parameters:
     type: object
     properties:
@@ -215,9 +214,8 @@ tools:
     required:
     - query
 - name: papers
-  description: Discover scientific papers on arXiv by a research topic. Not general web/news, social posts
-    or reading an already selected arXiv paper (paper_text). Return source results rather than inventing
-    paper citations.
+  description: Discover scientific papers on arXiv by a research topic. Not general web/news, social posts or reading
+    an already selected arXiv paper (paper_text). Return source results rather than inventing paper citations.
   parameters:
     type: object
     properties:
@@ -240,9 +238,8 @@ tools:
     required:
     - query
 - name: paper_text
-  description: Extract text from a supplied arXiv identifier or arXiv URL. Use after a paper has been
-    selected, not to discover papers (papers) or read an ordinary article URL (fetch). Ask for the identifier
-    if it is missing.
+  description: Extract text from a supplied arXiv identifier or arXiv URL. Use after a paper has been selected,
+    not to discover papers (papers) or read an ordinary article URL (fetch). Ask for the identifier if it is missing.
   parameters:
     type: object
     properties:
@@ -261,10 +258,10 @@ tools:
     required:
     - arxiv_url
 - name: dedupe_sources
-  description: Remove duplicate source items already provided by exact URL after trimming surrounding
-    whitespace. Preserve the first item, metadata and order. Use an existing list only; not discovery,
-    fetching, fuzzy matching or fact verification. Each item must have a nonblank string url. An empty
-    list is valid; malformed items return an error, not fabricated replacements.
+  description: Remove duplicate source items already provided by exact URL after trimming surrounding whitespace.
+    Preserve the first item, metadata and order. Use an existing list only; not discovery, fetching, fuzzy matching
+    or fact verification. Each item must have a nonblank string url. An empty list is valid; malformed items return
+    an error, not fabricated replacements.
   parameters:
     type: object
     properties:
@@ -283,7 +280,7 @@ tools:
           required:
           - url
           additionalProperties: true
-        description: Existing source list; each object requires nonblank string url. Keep original metadata;
-          do not normalize paths, query strings, case or trailing slash.
+        description: Existing source list; each object requires nonblank string url. Keep original metadata; do
+          not normalize paths, query strings, case or trailing slash.
     required:
     - items

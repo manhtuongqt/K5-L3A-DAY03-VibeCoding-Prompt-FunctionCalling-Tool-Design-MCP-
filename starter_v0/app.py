@@ -91,7 +91,7 @@ def main() -> None:
             st.warning("Model chưa được cấu hình trên máy chủ. Hãy báo người vận hành demo.")
         with st.expander("Cấu hình model", expanded=not public_demo):
             model = st.text_input("Model (trống: dùng cấu hình provider)", value=os.getenv("LAB_MODEL", ""), disabled=public_demo)
-            version = st.text_input("Nhãn phiên bản", value=os.getenv("LAB_VERSION", "v3"), disabled=public_demo)
+            version = st.text_input("Nhãn phiên bản", value=os.getenv("LAB_VERSION", "v7"), disabled=public_demo)
             max_rounds = st.slider("Số vòng công cụ tối đa mỗi lượt", min_value=1, max_value=4 if public_demo else 10,
                                    value=4 if public_demo else 5, disabled=public_demo)
             if public_demo:
@@ -99,11 +99,11 @@ def main() -> None:
         if public_demo:
             provider_name = default if default in names else "openai"
             model = os.getenv("LAB_MODEL", "")
-            version = os.getenv("LAB_VERSION", "v3")
+            version = os.getenv("LAB_VERSION", "v7")
             max_rounds = 4
         show_tools = st.checkbox("Hiện nhật ký công cụ", value=True)
         if st.button("Bắt đầu phiên mới", use_container_width=True):
-            start_session(provider_name, model.strip(), version.strip() or "v3", max_rounds)
+            start_session(provider_name, model.strip(), version.strip() or "v7", max_rounds)
             st.rerun()
         st.caption("Bắt đầu phiên mới sẽ xóa hội thoại trên màn hình. Tải transcript trước nếu cần lưu lại.")
         st.divider()
@@ -112,7 +112,7 @@ def main() -> None:
         st.caption(os.getenv("LAB_TWITTER_STATUS", "X / Twitter: chưa kết nối ổn định, hiện không dùng làm luồng demo chính."))
         st.markdown('<div class="footer-note">Không nhập API key hoặc thông tin riêng tư. Demo không gửi Telegram. Hội thoại được lưu trên máy chủ phục vụ bài lab.</div>', unsafe_allow_html=True)
     if "lab_session" not in st.session_state:
-        start_session(provider_name, model.strip(), version.strip() or "v3", max_rounds)
+        start_session(provider_name, model.strip(), version.strip() or "v7", max_rounds)
     session = st.session_state["lab_session"]
     transcript = session["transcript"]
     st.markdown('<div class="workspace-topline"><span class="brand"><span class="brand-mark">RD</span>Research Desk</span><span class="top-tag">Day 03 · Demo tương tác</span></div>', unsafe_allow_html=True)
