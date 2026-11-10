@@ -8,6 +8,7 @@
 - [x] Bộ base giữ nguyên; không thay grader trong lần tối ưu bổ sung. Xem `analysis/optimization_integrity.json`.
 - [x] Tool mới `dedupe_sources`, có implementation, TOOL.md, đăng ký, declaration và nhiều hơn ba unit test.
 - [x] Team eval đủ 10 case: 5 single-turn, 5 multi-turn.
+- [x] Mỗi tình huống có log API thật và kết quả quan sát; đối chiếu tại [SCENARIO_EVIDENCE.md](analysis/SCENARIO_EVIDENCE.md), không chỉ nộp query/expected.
 - [x] Unit/contract/runtime test: **147 passed, 0 failed, 0 skipped** sau khi chọn v7.
 - [x] Hội thoại CLI ít nhất ba lượt gọi model thật, có transcript.
 - [x] Streamlit UI, link Cloudflare, đọc URL thật và tải transcript. Xem `DEMO_GUIDE.md`.

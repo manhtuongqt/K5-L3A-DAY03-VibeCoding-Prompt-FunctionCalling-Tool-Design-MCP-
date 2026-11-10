@@ -130,6 +130,8 @@ Giới hạn phép chấm: eval gốc chấm tập tool call trong một lượt
 
 ## B3. Eval riêng của nhóm
 
+**Log cho từng tình huống:** [SCENARIO_EVIDENCE.md](../analysis/SCENARIO_EVIDENCE.md) dẫn tới đúng case và dòng trong run JSON v3/v7; [scenario_evidence.json](../analysis/scenario_evidence.json) trích input, expected, actual calls, actual text và tool results kèm hash của log gốc. Mười tình huống đều có lời gọi model API thật. Chúng là case kiểm thử có kịch bản, không được gọi là trải nghiệm hay sự cố của người dùng thật. Case có tool error vẫn giữ nguyên lỗi, không coi routing PASS là lấy dữ liệu thành công.
+
 Kết quả cập nhật **v7: 9/10 (90%)**, multi-turn 5/5; G04 còn sai protocol hỏi lại. Các bảng v3 bên dưới là bằng chứng lịch sử, không bị ghi đè.
 
 `data/eval_group.json` có đúng 10 case: 5 single turn và 5 multi turn. Không thay đổi `eval_base.json`.
