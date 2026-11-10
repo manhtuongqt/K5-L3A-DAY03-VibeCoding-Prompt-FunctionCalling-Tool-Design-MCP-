@@ -6,7 +6,7 @@
 - Phiên bản demo hiện tại: **v7**; các snapshot và run cũ vẫn được giữ.
 - Thành viên 1: Nguyễn Mạnh Tường — 2A202603646.
 - Thành viên 2:
-- Thành viên 3:
+- Thành viên 3: Phạm Thị Hồng Ngọc - 2A202603602
 - Tên nhóm:
 - Provider/model: CKEY tại endpoint OpenAI-compatible `https://api.xah.io/v1`, adapter `openai`, model `gemini-2.5-flash-lite`. Preflight đã gọi thành công; metric eval ghi riêng bên dưới. Không gọi backend này là OpenAI model.
 - Việc triển khai được hỗ trợ bởi 3 AI agent làm song song: A phụ trách prompt/eval; B phụ trách tool/unit test; C phụ trách UI/eval nhóm/báo cáo. Đây là vai trò hỗ trợ kỹ thuật, không phải danh sách ba thành viên sinh viên.
