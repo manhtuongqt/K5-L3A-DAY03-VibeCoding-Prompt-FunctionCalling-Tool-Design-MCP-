@@ -7,9 +7,7 @@
 - Thành viên 1: Nguyễn Mạnh Tường — 2A202603646.
 - Thành viên 2: Phạm Duy Đức — 2A202603611.
 - Thành viên 3: Phạm Thị Hồng Ngọc — 2A202603602.
-- Tên nhóm: Vibe coding.
-- Provider/model: CKEY tại endpoint OpenAI-compatible `https://api.xah.io/v1`, adapter `openai`, model `gemini-2.5-flash-lite`. Preflight đã gọi thành công; metric eval ghi riêng bên dưới. Không gọi backend này là OpenAI model.
-- Việc triển khai được hỗ trợ bởi 3 AI agent ở các phần prompt/eval, tool/unit test và UI/báo cáo. A/B/C trong bảng phân công dưới đây là vai trò của các thành viên sinh viên.
+- Tên nhóm: VibeCoding.
 
 ## Thành viên nhóm VibeCoding
 
@@ -224,8 +222,6 @@ Các regression đã tái hiện bằng fixture offline trước khi sửa: `tim
 Test dùng HTTP mock và không gửi Telegram thật. Lookup keyless và fetch qua Tavily Extract chỉ bật bằng cấu hình opt-in; không dùng dữ liệu giả khi API thất bại. Live smoke qua cùng tool implementation được lưu ở [services_smoke.json](../analysis/services_smoke.json).
 
 ## B6. Nhận xét kỹ thuật và vai trò AI
-
-Phần này là ghi chú kỹ thuật do AI hỗ trợ soạn từ code/log, không phải lời kể về trải nghiệm hay đóng góp của các thành viên chưa được xác nhận.
 
 - `system_prompt.md` phù hợp cho quy tắc chung: thiếu thông tin phải hỏi, tôn trọng sửa/hủy yêu cầu, giới hạn phạm vi và xác nhận trước hành động gửi. v2 sửa được chuyển nguồn theo ý mới nhất ở M02/M06. Việc một số case phạm vi đúng ở v1/v2 rồi sai lại ở v3 cho thấy prompt chưa đủ bảo đảm hành vi ổn định.
 - `tools.yaml` phù hợp cho contract cụ thể: handle không có `@`, alias tên người, enum `search_type`/`topic`/`timeframe`, query chỉ giữ chủ đề và lúc nào dùng tool mới. v3 sửa được các lỗi handle và query, nhưng chỉ mô tả rõ hơn vẫn chưa làm model gọi `clarify` ở R10/R11/R12.
