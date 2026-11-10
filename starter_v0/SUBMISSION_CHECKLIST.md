@@ -13,11 +13,12 @@
 - [x] Hội thoại CLI ít nhất ba lượt gọi model thật, có transcript.
 - [x] Streamlit UI, link Cloudflare, đọc URL thật và tải transcript. Xem `DEMO_GUIDE.md`.
 - [x] REPORT phần A/B, failure analysis, reflection kỹ thuật và giới hạn có dẫn chứng.
+- [x] Poster giới thiệu Phần A: [HTML](artifacts/poster.html) và [PDF](artifacts/poster.pdf), đã kiểm tra một trang A4 ngang, đủ ba thành viên và 11 tool.
 - [x] API key nằm trong `.env` được ignore; không đưa vào bài nộp.
 
 ## Các việc cần con người chốt
 
-- [ ] Điền tên nhóm, tên/MSSV của hai thành viên còn lại trong `artifacts/REPORT.md`.
+- [x] Nhóm **Vibe coding**, đủ tên/MSSV và phân công: A — Nguyễn Mạnh Tường; B — Phạm Duy Đức; C — Phạm Thị Hồng Ngọc trong `artifacts/REPORT.md`.
 - [ ] Các thành viên tự thử UI, mở nguồn kiểm tra nội dung, đọc báo cáo và chuẩn bị trình bày vai trò thực tế của mình.
 - [ ] Giữ máy và Cloudflare Tunnel hoạt động khi demo; cập nhật link nếu khởi động tunnel mới.
 - [ ] Nộp `starter_v0/` hoặc link repository theo hướng dẫn của lớp, kiểm tra trạng thái nộp trên LMS.
@@ -29,4 +30,4 @@
 - Routing accuracy chỉ đo chọn tool và arguments. Nó không đo độ đúng nội dung, độ tin cậy của nguồn hay tỷ lệ API trả dữ liệu. Các lỗi dịch vụ còn trong run JSON.
 - Chưa có phép đo lặp và bộ kiểm chứng độc lập; không coi một run 85%/90% là cam kết chất lượng cho mọi yêu cầu.
 
-README không đặt ngưỡng bắt buộc 100% accuracy. Telegram gửi thật, Small Local Model Challenge, poster HTML/SVG và điều kiện UI + hơn ba tool mới là các phần bonus; chưa được thực hiện đủ để nhận các bonus đó.
+README không đặt ngưỡng bắt buộc 100% accuracy. Poster HTML một trang là phần tùy chọn và đã có. Telegram gửi thật, Small Local Model Challenge và điều kiện UI + hơn ba tool mới là các phần bonus; chưa được thực hiện đủ để nhận các bonus đó.

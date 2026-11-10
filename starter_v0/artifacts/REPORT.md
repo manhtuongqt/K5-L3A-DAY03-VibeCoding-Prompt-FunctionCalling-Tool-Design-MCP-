@@ -5,21 +5,33 @@
 - Repository làm việc: <https://github.com/manhtuongqt/Day03-Prompt-Engineering-Tool-Calling-Labs-student>.
 - Phiên bản demo hiện tại: **v7**; các snapshot và run cũ vẫn được giữ.
 - Thành viên 1: Nguyễn Mạnh Tường — 2A202603646.
-- Thành viên 2:
-- Thành viên 3: Phạm Thị Hồng Ngọc - 2A202603602
-- Tên nhóm:
+- Thành viên 2: Phạm Duy Đức — 2A202603611.
+- Thành viên 3: Phạm Thị Hồng Ngọc — 2A202603602.
+- Tên nhóm: Vibe coding.
 - Provider/model: CKEY tại endpoint OpenAI-compatible `https://api.xah.io/v1`, adapter `openai`, model `gemini-2.5-flash-lite`. Preflight đã gọi thành công; metric eval ghi riêng bên dưới. Không gọi backend này là OpenAI model.
-- Việc triển khai được hỗ trợ bởi 3 AI agent làm song song: A phụ trách prompt/eval; B phụ trách tool/unit test; C phụ trách UI/eval nhóm/báo cáo. Đây là vai trò hỗ trợ kỹ thuật, không phải danh sách ba thành viên sinh viên.
+- Việc triển khai được hỗ trợ bởi 3 AI agent ở các phần prompt/eval, tool/unit test và UI/báo cáo. A/B/C trong bảng phân công dưới đây là vai trò của các thành viên sinh viên.
 
-Tên nhóm: ____________________
+## Thành viên nhóm Vibe coding
 
 | STT | Thành viên | MSSV |
 |---|---|---|
 | 1 | Nguyễn Mạnh Tường | 2A202603646 |
-| 2 |  |  |
-| 3 | Phạm Thị Hồng Ngọc| 2A202603602 |
+| 2 | Phạm Duy Đức | 2A202603611 |
+| 3 | Phạm Thị Hồng Ngọc | 2A202603602 |
+
+## Phân công phụ trách
+
+| Vai trò | Thành viên | Phụ trách chính | Phần báo cáo |
+|---|---|---|---|
+| A | Nguyễn Mạnh Tường | Setup API, chạy v0–v3 và các phiên bản tối ưu bổ sung; đọc log, phân loại lỗi, sửa prompt/tool declaration, ghi version log và gộp code | B1: phiên bản; B2: phân tích lỗi |
+| B | Phạm Duy Đức | Tool mới `dedupe_sources`, `TOOL.md`, đăng ký tool và unit test; sau đó hỗ trợ kiểm eval | A2: mô tả tool; B5: tool và kết quả test |
+| C | Phạm Thị Hồng Ngọc | UI, 10 eval case, link demo, transcript và poster; tổng hợp báo cáo | Phần A, B3: team eval; B4: hội thoại và UI |
+
+Phần log và đề xuất tình huống phải kèm [bằng chứng gọi API thật](../analysis/SCENARIO_EVIDENCE.md): input, model/version, actual tool calls, arguments, kết quả và PASS/FAIL. Cả ba cùng rà soát phần B6 và nắm các giới hạn trước khi trình bày.
 
 # PHẦN A — Giới thiệu agent
+
+**Bản trình chiếu một trang:** [poster.html](poster.html) · [PDF để in](poster.pdf). Bản markdown Phần A dưới đây vẫn là nội dung nộp chính. Tải HTML về và mở bằng trình duyệt; GitHub hiển thị mã nguồn HTML thay vì chạy trang.
 
 ## A1. Agent làm được gì
 

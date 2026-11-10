@@ -42,7 +42,7 @@ Bonus:
 
 **Bản hiện tại: v7**, base **17/20 (85%)**, team eval **9/10 (90%)**. V0–v3 và mọi run tối ưu bổ sung được giữ nguyên. [Checklist trước khi nộp](starter_v0/SUBMISSION_CHECKLIST.md), [báo cáo và bằng chứng](starter_v0/artifacts/REPORT.md).
 
-Trạng thái bên dưới ghi nhận các hạng mục đã triển khai và có bằng chứng trong `starter_v0/artifacts/REPORT.md`. Key đã cấu hình không đồng nghĩa mọi dịch vụ luôn hoạt động: X/Twitter còn lỗi quyền truy cập/quota. Tên nhóm và hai thành viên vẫn cần bổ sung; nhóm tự kiểm tra demo và nộp bài bằng tài khoản phù hợp. Các run có cả case PASS và FAIL, không có yêu cầu đạt 100% accuracy trong README này.
+Trạng thái bên dưới ghi nhận các hạng mục đã triển khai và có bằng chứng trong `starter_v0/artifacts/REPORT.md`. Key đã cấu hình không đồng nghĩa mọi dịch vụ luôn hoạt động: X/Twitter còn lỗi quyền truy cập/quota. Nhóm Vibe coding đã có đủ thông tin và phân công A — Tường, B — Đức, C — Ngọc; nhóm tự kiểm tra demo và nộp bài bằng tài khoản phù hợp. Các run có cả case PASS và FAIL, không có yêu cầu đạt 100% accuracy trong README này.
 
 Đánh dấu khi xong. Mỗi dòng trỏ tới file cần sửa và bằng chứng cần nộp.
 
@@ -354,6 +354,8 @@ Hoàn thành `artifacts/REPORT.md`. File này có 2 phần với deadline khác 
 - **Phần B — Chi tiết / Bằng chứng** — **có thể hoàn thiện sau Team showdown để nộp bài**. Bảng đầy đủ v0–v3, failure analysis, eval cases, live chat, reflection — dựa trên log thật (run JSON, version_log).
 
 **Format Phần A:** nộp tối thiểu bản markdown trong `REPORT.md`. Khuyến khích biến Phần A thành **poster HTML/SVG 1 trang** để show trực tiếp cho team cùng zone (ví dụ `artifacts/poster.html` hoặc `artifacts/poster.svg`) — cùng nội dung, dễ nhìn hơn. Poster HTML/SVG là tùy chọn, không thay thế bản markdown.
+
+Poster nhóm Vibe coding đã có: [HTML một trang](starter_v0/artifacts/poster.html) · [PDF A4 ngang](starter_v0/artifacts/poster.pdf). Tải HTML về và mở bằng trình duyệt để trình chiếu hoặc bấm nút in; GitHub chỉ hiển thị mã nguồn HTML.
 
 ## Step 7 — Bonus Challenge: Small Local Model
 

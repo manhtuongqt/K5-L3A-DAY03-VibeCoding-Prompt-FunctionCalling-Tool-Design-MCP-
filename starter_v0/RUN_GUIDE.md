@@ -100,6 +100,8 @@ Link `trycloudflare.com` chỉ tồn tại khi máy chạy UI và tunnel còn ho
 
 Đối chiếu lần cuối theo [SUBMISSION_CHECKLIST.md](SUBMISSION_CHECKLIST.md).
 
-Hai thành viên còn lại tự bổ sung tên/MSSV vào REPORT; người dùng yêu cầu để trống các thông tin này trong lúc triển khai. Nhóm cần tự thử UI, đọc lại nguồn, kiểm tra kết quả và nộp repo lên LMS bằng tài khoản phù hợp. Các vai A/B/C của AI được ghi riêng với danh sách sinh viên.
+Nhóm Vibe coding đã có đủ tên/MSSV và phân công trong REPORT: A — Nguyễn Mạnh Tường; B — Phạm Duy Đức; C — Phạm Thị Hồng Ngọc. Nhóm cần tự thử UI, đọc lại nguồn, kiểm tra kết quả và nộp repo lên LMS bằng tài khoản phù hợp. Vai trò hỗ trợ của AI được ghi riêng với phân công thành viên.
+
+Để trình chiếu Phần A, tải `artifacts/poster.html` và mở bằng trình duyệt; có thể bấm **In / Lưu PDF một trang**. Bản `artifacts/poster.pdf` đã xuất sẵn để in A4 ngang. Phần A trong REPORT.md vẫn là bản markdown chính.
 
 Tài liệu Tavily: https://www.tavily.com/agent-setup/SKILL.md

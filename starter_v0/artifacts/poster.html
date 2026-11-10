@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Phần A - Giới thiệu Research Desk, nhóm Vibe coding, Day03.">
+  <title>Research Desk | Vibe coding | Day03</title>
+  <style>
+    :root { --ink:#14313d; --muted:#586c72; --teal:#087e83; --line:#d9e3dd; --paper:#f8faf6; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#e5ebe6; color:var(--ink); font-family:"Segoe UI",Arial,sans-serif; }
+    .controls { width:297mm; margin:16px auto 10px; display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#425b61; }
+    .controls a { color:var(--teal); text-decoration:none; }
+    .controls button { background:var(--ink); color:#fff; border:0; border-radius:7px; padding:9px 14px; font:inherit; cursor:pointer; }
+    .page { width:297mm; height:210mm; margin:0 auto 24px; padding:10mm 12mm 8mm; background:var(--paper); box-shadow:0 12px 50px #1b3a4520; display:flex; flex-direction:column; }
+    .top { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line); padding-bottom:11px; }
+    .brand { font-size:13px; font-weight:750; display:flex; align-items:center; gap:10px; }
+    .mark { background:var(--ink); color:#fff; border-radius:6px; padding:5px 8px; font-size:10px; letter-spacing:.09em; }
+    .edition { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#4c6a6a; }
+    .hero { display:grid; grid-template-columns:1fr 280px; align-items:center; gap:30px; margin:16px 0 15px; }
+    .eyebrow { font-size:10px; letter-spacing:.16em; color:var(--teal); font-weight:750; text-transform:uppercase; }
+    h1 { margin:4px 0 7px; font-size:43px; line-height:1.08; letter-spacing:-.045em; font-weight:760; }
+    .lead { font-size:14px; line-height:1.55; margin:0; max-width:635px; color:#405c65; }
+    .cta { background:var(--ink); color:#fff; border-radius:12px; padding:16px 18px; }
+    .cta span { font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:#b5d8ce; }
+    .cta a { display:block; color:#fff; text-decoration:none; font-size:20px; font-weight:650; margin:5px 0; }
+    .cta p { color:#c6d9d8; font-size:10.5px; line-height:1.45; margin:0; }
+    .flow { display:grid; grid-template-columns:1fr 1fr 1.13fr; gap:10px; margin-bottom:17px; }
+    .step { border:1px solid var(--line); border-radius:8px; padding:8px 11px; font-size:11.5px; color:#36595c; }
+    .step b { color:var(--teal); margin-right:8px; font-size:10px; }
+    main { display:grid; grid-template-columns:1.16fr 1fr; gap:28px; flex:1; min-height:0; }
+    h2 { margin:0 0 9px; font-size:14px; font-weight:750; letter-spacing:-.01em; }
+    .section-number { color:var(--teal); font-size:10px; letter-spacing:.08em; margin-right:7px; }
+    .tools { width:100%; border-collapse:collapse; font-size:11.3px; line-height:1.35; }
+    .tools th { text-align:left; font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:#71847d; padding:0 0 6px; border-bottom:1px solid var(--line); }
+    .tools td { padding:6px 0; border-bottom:1px solid #e4eae5; vertical-align:top; }
+    .tools td:first-child { width:125px; padding-right:9px; color:#173d48; font-family:Consolas,monospace; font-size:10.7px; font-weight:600; }
+    .tools .new td { background:#e6f3eb; }
+    .tools .new td:first-child { padding-left:6px; border-left:3px solid #087e83; }
+    .new-label { font-size:8px; color:var(--teal); font-family:"Segoe UI",Arial,sans-serif; padding-left:3px; }
+    .tool-note { font-size:10px; line-height:1.45; color:var(--muted); margin:8px 0 0; }
+    .prompts { margin:0; padding:0; list-style:none; counter-reset:prompts; }
+    .prompts li { counter-increment:prompts; display:grid; grid-template-columns:22px 1fr; gap:6px; padding:7px 0; border-bottom:1px solid #e1e8e1; font-size:11.2px; line-height:1.4; }
+    .prompts li::before { content:"0" counter(prompts); color:#6d8a81; font-size:9px; font-weight:700; padding-top:2px; }
+    .prompts small { display:block; color:#687f7c; margin-top:2px; font-size:9.5px; }
+    .human { margin-top:12px; background:#edf2ec; border-radius:8px; padding:10px 12px; }
+    .human strong { font-size:10.5px; color:#204d52; }
+    .human p { font-size:10.4px; line-height:1.45; color:#526d6d; margin:4px 0 0; }
+    footer { border-top:1px solid var(--line); margin-top:14px; padding-top:10px; }
+    .team { display:grid; grid-template-columns:1.03fr 1fr 1.16fr; gap:20px; }
+    .person strong { font-size:11px; font-weight:700; }
+    .person p { margin:3px 0 0; font-size:9.4px; line-height:1.4; color:#617a78; }
+    .bottom { display:flex; justify-content:space-between; gap:18px; font-size:8.6px; color:#758780; margin-top:9px; }
+    .bottom a { color:#557770; text-decoration:none; }
+    @page { size:A4 landscape; margin:0; }
+    @media print {
+      html,body { width:297mm; height:210mm; background:white; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+      .controls { display:none; }
+      .page { margin:0; box-shadow:none; break-inside:avoid; break-after:avoid; }
+    }
+    @media screen and (max-width:900px) {
+      .controls { width:auto; margin:15px; gap:15px; }
+      .page { width:auto; height:auto; min-height:100vh; margin:0; padding:24px; }
+      .hero, main { grid-template-columns:1fr; }
+      .hero { gap:16px; }
+      h1 { font-size:37px; }
+      .flow { grid-template-columns:1fr; }
+      main { gap:24px; }
+      .team { grid-template-columns:1fr; gap:12px; }
+      .edition { font-size:9px; text-align:right; }
+      .bottom { flex-direction:column; gap:5px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <a href="https://github.com/manhtuongqt/Day03-Prompt-Engineering-Tool-Calling-Labs-student/blob/main/starter_v0/artifacts/REPORT.md">Phần A trong báo cáo</a>
+    <button type="button" onclick="window.print()">In / Lưu PDF một trang</button>
+  </div>
+  <article class="page" aria-label="Poster giới thiệu Research Desk">
+    <header class="top">
+      <div class="brand"><span class="mark">RD</span> Vibe coding</div>
+      <div class="edition">Day03 / Prompt Engineering &amp; Tool Calling / v7</div>
+    </header>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Từ câu hỏi đến nguồn thông tin</div>
+        <h1>Research Desk</h1>
+        <p class="lead">Agent tìm nguồn, đọc URL, loại liên kết trùng và tổng hợp thành bản tin. Bạn đặt câu hỏi; agent chọn công cụ và lưu lại bằng chứng xử lý.</p>
+      </div>
+      <div class="cta">
+        <span>Thử trên giao diện Streamlit</span>
+        <a href="https://learned-agreed-focused-korean.trycloudflare.com" target="_blank" rel="noopener">Mở demo Research Desk</a>
+        <p>Chọn mẫu, sửa yêu cầu rồi gửi. Link tạm thời hoạt động khi máy chủ và Cloudflare Tunnel còn chạy.</p>
+      </div>
+    </section>
+    <section class="flow" aria-label="Cách dùng">
+      <div class="step"><b>01</b> Nhập câu hỏi hoặc dán URL</div>
+      <div class="step"><b>02</b> Theo dõi công cụ và trả lời câu hỏi bổ sung</div>
+      <div class="step"><b>03</b> Mở nguồn kiểm tra, tải transcript JSON</div>
+    </section>
+    <main>
+      <section aria-labelledby="tools-heading">
+        <h2 id="tools-heading"><span class="section-number">A2</span> Công cụ nào, công việc đó</h2>
+        <table class="tools">
+          <thead><tr><th>Tool</th><th>Công việc và điều kiện</th></tr></thead>
+          <tbody>
+            <tr><td>lookup</td><td>Tìm nguồn web hoặc tin tức theo chủ đề và thời gian; dùng Tavily.</td></tr>
+            <tr><td>fetch</td><td>Đọc đúng URL đã cung cấp; Firecrawl hoặc Tavily Extract.</td></tr>
+            <tr class="new"><td>dedupe_sources<span class="new-label">MỚI</span></td><td>Loại URL trùng sau khi bỏ khoảng trắng, giữ mục đầu và thứ tự. Xử lý cục bộ.</td></tr>
+            <tr><td>clarify</td><td>Hỏi thông tin còn thiếu, chờ người dùng bổ sung.</td></tr>
+            <tr><td>format</td><td>Trình bày các mục đã có thành markdown digest; không tự tìm thêm nguồn.</td></tr>
+            <tr><td>timeline</td><td>Lấy bài từ một tài khoản X/Twitter; cần RapidAPI.</td></tr>
+            <tr><td>social_search</td><td>Tìm bài X/Twitter theo chủ đề, Latest hoặc Top; cần RapidAPI.</td></tr>
+            <tr><td>policy</td><td>Tra bộ chính sách markdown mẫu trong máy.</td></tr>
+            <tr><td>papers</td><td>Tìm bài nghiên cứu trên arXiv; cần mạng, có rate limit.</td></tr>
+            <tr><td>paper_text</td><td>Tải và trích văn bản PDF arXiv; cần mạng.</td></tr>
+            <tr><td>send</td><td>Tool bonus gửi Telegram có xác nhận; đang tắt trên demo.</td></tr>
+          </tbody>
+        </table>
+        <p class="tool-note">Web đã có lần chạy thật thành công, nhưng phụ thuộc quota. X/Twitter chưa kết nối ổn định; arXiv chưa có bằng chứng live trong bài. Demo không gửi Telegram.</p>
+      </section>
+      <section aria-labelledby="try-heading">
+        <h2 id="try-heading"><span class="section-number">A3</span> Năm yêu cầu để thử ngay</h2>
+        <ol class="prompts">
+          <li><div>“Bạn là gì và có thể giúp tôi làm gì?”<small>Trả lời trực tiếp, không cần công cụ.</small></div></li>
+          <li><div>“Tóm tắt bài này giúp tôi.”<small>Cần URL; trả lời tiếp bằng một đường dẫn cụ thể.</small></div></li>
+          <li><div>“Tìm 3 tin về pin xe điện trong 24 giờ gần đây trên web.”<small>lookup · topic=news · timeframe=day</small></div></li>
+          <li><div>“Loại URL trùng, giữ nguồn đầu: [{&quot;title&quot;:&quot;A&quot;,&quot;url&quot;:&quot;https://example.com/a&quot;},{&quot;title&quot;:&quot;A lặp&quot;,&quot;url&quot;:&quot;https://example.com/a&quot;}].”<small>dedupe_sources · không cần API tìm kiếm.</small></div></li>
+          <li><div>“Đăng bản tin này lên Telegram.”<small>Cần xác nhận; lớp thực thi demo chặn gửi.</small></div></li>
+        </ol>
+        <aside class="human">
+          <strong>Con người giữ quyền quyết định</strong>
+          <p>Bạn chọn mục tiêu, bổ sung dữ liệu, mở nguồn và kiểm tra nội dung trước khi dùng. Loại trùng không đồng nghĩa xác minh nguồn. Model vẫn có thể hỏi bằng văn bản thay vì tool clarify; xem log để kiểm tra.</p>
+        </aside>
+      </section>
+    </main>
+    <footer>
+      <div class="team">
+        <div class="person"><strong>A · Nguyễn Mạnh Tường</strong><p>2A202603646 · API, prompt, eval, log · B1/B2</p></div>
+        <div class="person"><strong>B · Phạm Duy Đức</strong><p>2A202603611 · Tool mới, tài liệu, unit test · A2/B5</p></div>
+        <div class="person"><strong>C · Phạm Thị Hồng Ngọc</strong><p>2A202603602 · UI, 10 case, demo, transcript · A/B3/B4</p></div>
+      </div>
+      <div class="bottom">
+        <span>Demo: learned-agreed-focused-korean.trycloudflare.com</span>
+        <a href="https://github.com/manhtuongqt/Day03-Prompt-Engineering-Tool-Calling-Labs-student/blob/main/starter_v0/artifacts/REPORT.md">Phần A / REPORT.md là bản markdown chính; poster là bản giới thiệu bổ trợ.</a>
+      </div>
+    </footer>
+  </article>
+</body>
+</html>

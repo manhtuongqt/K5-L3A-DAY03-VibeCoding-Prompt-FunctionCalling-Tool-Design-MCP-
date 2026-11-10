@@ -1,0 +1,41 @@
+{
+  "pdf_pages": 1,
+  "pdf_page_size_points": [
+    841.91998,
+    594.95996
+  ],
+  "required_text_present": true,
+  "page_errors": [],
+  "left_column_above_footer": true,
+  "right_column_above_footer": true,
+  "footer_within_page": true,
+  "layout_boxes": {
+    "page": {
+      "x": 0,
+      "y": 0,
+      "width": 1122.515625,
+      "height": 793.6875
+    },
+    "footer": {
+      "x": 45.34375,
+      "y": 695.296875,
+      "width": 1031.828125,
+      "height": 68.15625
+    },
+    "tools_note": {
+      "x": 45.34375,
+      "y": 641.109375,
+      "width": 539.078125,
+      "height": 29
+    },
+    "human": {
+      "x": 612.421875,
+      "y": 560.734375,
+      "width": 464.75,
+      "height": 90.234375
+    }
+  },
+  "pdf_rendered_with": "PyMuPDF 1.26.6",
+  "vietnamese_member_names_in_pdf": true,
+  "no_local_file_links_in_pdf": true
+}
