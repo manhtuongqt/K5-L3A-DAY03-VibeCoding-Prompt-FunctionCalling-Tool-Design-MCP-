@@ -11,7 +11,7 @@
 - Provider/model: CKEY tại endpoint OpenAI-compatible `https://api.xah.io/v1`, adapter `openai`, model `gemini-2.5-flash-lite`. Preflight đã gọi thành công; metric eval ghi riêng bên dưới. Không gọi backend này là OpenAI model.
 - Việc triển khai được hỗ trợ bởi 3 AI agent ở các phần prompt/eval, tool/unit test và UI/báo cáo. A/B/C trong bảng phân công dưới đây là vai trò của các thành viên sinh viên.
 
-## Thành viên nhóm Vibe coding
+## Thành viên nhóm VibeCoding
 
 | STT | Thành viên | MSSV |
 |---|---|---|
