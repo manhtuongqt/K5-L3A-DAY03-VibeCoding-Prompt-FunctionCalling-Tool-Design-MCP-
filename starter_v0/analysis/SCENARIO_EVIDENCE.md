@@ -53,6 +53,8 @@ Log đối chiếu: [v3](../runs/v3_B_group_openai_20261110T103735052541.json#L2
 
 ## Phiên chat/UI thật để trình bày demo
 
+- **Phiên nhập trực tiếp được người dùng xác nhận đã thử xong:** [10 lượt trong 2 phiên web v7](LIVE_WEB_REVIEW.md), có bản chụp log, phân tích hành vi và các tình huống đề xuất từ lỗi thật. Phần này tách khỏi các lượt kiểm tra tự động dưới đây; mã sinh viên trong log công khai đã được che.
+
 - [UI v7: loại trùng](../transcripts/ui_v7_openai_20261110T114110309082.transcript.json): model gọi `dedupe_sources`, đầu vào 3 mục, giữ 2 mục và loại 1 mục trùng. [Kiểm tra Chrome công khai](v7_ui_live_check.json).
 - [UI đọc URL sau khi thêm key](../transcripts/ui_v3_openai_20261110T110936203883.transcript.json): gọi `fetch` thật và trả lời từ nội dung đã nhận. [Bằng chứng qua Cloudflare](ui_redesign_public_web_check_after_keys.json).
 - [CLI ba lượt](../transcripts/v3_openai_20261110T103849383606.transcript.json): có hỏi URL, bổ sung URL, đọc trang và lượt tìm kiếm gặp giới hạn dịch vụ. Đây là kịch bản tự động nhập vào CLI và gọi API thật, không phải lời kể về một cuộc hội thoại của thành viên nhóm.

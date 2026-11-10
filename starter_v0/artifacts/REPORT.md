@@ -169,6 +169,14 @@ G01 kiểm tra cả routing và danh sách `items` mà model truyền cho tool m
 
 ## B4. Hội thoại thật và UI
 
+### Phiên thử trực tiếp trên web do người dùng nhập
+
+Sau khi người dùng thông báo thử trực tiếp và xác nhận đã xong, ghi nhận **2 phiên UI với 10 lượt**, khoảng 12:26–12:33 ngày 10/11/2026 theo giờ Việt Nam. Đây là phiên nhập trực tiếp, tách khỏi các kịch bản CLI/AppTest trước đó; không suy ra hai người dùng độc lập hoặc mức hài lòng từ hai session.
+
+[Phân tích đầy đủ 10 lượt](../analysis/LIVE_WEB_REVIEW.md) · [Bản chụp S1: 4 lượt](../transcripts/live_web_v7_20261110_122635_122911.snapshot.json) · [Bản chụp S2: 6 lượt](../transcripts/live_web_v7_20261110_123044_123347.snapshot.json) · [Tóm tắt và hash](../analysis/live_web_v7_review.json). Bản công khai che hai mã sinh viên nhất quán; các file gốc giữ nguyên trên máy chủ.
+
+Cả 10 lượt có trạng thái `answered`; thực tế chỉ có **5 lời gọi tool, 1 lỗi `paper_text`**. Các lỗi quan sát được gồm: dùng khoảng `week` cho yêu cầu “hôm nay”, bỏ điều kiện “gần đây”, trả lời nhầm câu hỏi về UI/API, in `tool_code` như văn bản nhưng không thực thi, nhầm mã chưa rõ ý nghĩa thành arXiv ID và hỏi URL bằng văn bản thay vì `clarify`. Do đó `answered` hoặc routing PASS không chứng minh chất lượng câu trả lời. Các tình huống cải tiến tiếp theo trong bản phân tích đều dẫn tới lượt log gốc; chưa được tính thành eval case đã chạy mới. Điểm base 85% và nhóm 90% giữ nguyên.
+
 ### Giao diện Research Desk sau khi thiết kế lại
 
 Bản demo hiện tại đã chuyển sang **v7** sau khi kiểm tra base và bộ nhóm. [Kiểm tra UI v7 qua Chrome trên link Cloudflare](../analysis/v7_ui_live_check.json): không có lỗi JavaScript, model gọi `dedupe_sources` và trả lời thật trong khoảng 7,3 giây. [Transcript v7](../transcripts/ui_v7_openai_20261110T114110309082.transcript.json), [ảnh kết quả](../analysis/v7_ui_result.png). Các bằng chứng v3 bên dưới được giữ như lịch sử trước khi tối ưu tiếp.
