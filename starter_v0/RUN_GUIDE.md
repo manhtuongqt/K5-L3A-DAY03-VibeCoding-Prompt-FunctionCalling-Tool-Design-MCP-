@@ -66,6 +66,16 @@ Routing PASS không chứng minh tool đã lấy được dữ liệu. Xem thêm
 
 ## 5. Giao diện và hội thoại
 
+Giao diện Research Desk và kịch bản trình bày cho nhóm khác: [DEMO_GUIDE.md](DEMO_GUIDE.md). Có nút chọn mẫu, tiến trình công cụ thật, liên kết nguồn và tải transcript. Khởi động chế độ public với cấu hình khóa sẵn:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/serve_demo.py
+```
+
+Nếu DNS hệ thống không phân giải được gateway CKEY, thêm `--dns-fallback`. Tùy chọn chỉ tác động tiến trình demo, không sửa DNS Windows, endpoint hoặc kiểm tra chứng chỉ TLS.
+
+Để mở chế độ local có thể sửa cấu hình, dùng lệnh thông thường:
+
 ```powershell
 .\.venv\Scripts\python.exe -m streamlit run app.py --server.address 127.0.0.1 --server.port 8501
 ```

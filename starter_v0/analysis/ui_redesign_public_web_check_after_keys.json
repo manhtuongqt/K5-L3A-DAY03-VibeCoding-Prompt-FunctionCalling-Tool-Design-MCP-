@@ -1,0 +1,14 @@
+{
+  "kind": "real_public_tunnel_browser_web_demo",
+  "url": "https://learned-agreed-focused-korean.trycloudflare.com/",
+  "transcript": "transcripts\\ui_v3_openai_20261110T110936203883.transcript.json",
+  "status": "answered",
+  "elapsed_seconds": 13.093,
+  "tool_results": [
+    {
+      "tool": "fetch",
+      "ok": true
+    }
+  ],
+  "assistant_reply_visible": true
+}

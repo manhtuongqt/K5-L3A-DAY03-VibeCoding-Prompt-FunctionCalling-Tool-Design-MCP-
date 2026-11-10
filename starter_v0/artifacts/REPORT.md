@@ -28,15 +28,7 @@ Con người chọn mục tiêu nghiên cứu, cung cấp thông tin còn thiế
 
 **Link dùng thử:** <https://learned-agreed-focused-korean.trycloudflare.com>. Link tạm thời phụ thuộc máy chạy Streamlit và Cloudflare Tunnel còn hoạt động. Local: <http://localhost:8501>. Đã kiểm tra HTTP 200 ở trang chính và health endpoint; bằng chứng: [deployment_check.json](../analysis/deployment_check.json).
 
-Chạy từ `starter_v0/` sau khi cài thư viện và cấu hình `.env`:
-
-```powershell
-.\.venv\Scripts\python.exe -m streamlit run app.py --server.address 127.0.0.1
-```
-
-UI đọc key từ môi trường trên máy chạy, không có ô nhập key trong chat. Mỗi phiên giữ nguyên prompt/tool hash, lưu toàn bộ các lượt và tool result dưới `transcripts/`. Người dùng có thể tải transcript JSON. Khi `clarify` hỏi thêm, UI tạm dừng và dùng câu trả lời tiếp theo trong cùng phiên.
-
-Chế độ chia sẻ demo bật bằng `LAB_PUBLIC_DEMO=1`: provider/model/version lấy từ cấu hình server và không cho người truy cập đổi; mỗi lượt giới hạn 4.000 ký tự và tối đa 4 vòng tool. Chế độ local giữ các ô cấu hình có thể chỉnh. Việc mở trang, đổi cấu hình hoặc bắt đầu phiên mới không gọi model; API chỉ được gọi sau khi gửi một yêu cầu chat.
+Giao diện **Research Desk** có ba mẫu tác vụ để sửa rồi gửi, tiến trình công cụ thật, liên kết kết quả và nút tải transcript. Khi agent hỏi thêm, trả lời trong cùng ô chat. [Hướng dẫn demo và khởi động lại](../DEMO_GUIDE.md).
 
 ## A2. Các công cụ
 
@@ -54,9 +46,7 @@ Chế độ chia sẻ demo bật bằng `LAB_PUBLIC_DEMO=1`: provider/model/vers
 | `paper_text` | Tải và trích văn bản PDF arXiv | Không | Mạng arXiv |
 | `send` | Công cụ bonus gửi Telegram có kiểm tra xác nhận | Không | Không bật gửi trên UI demo; chưa chạy gửi thật |
 
-Các lời gọi qua ứng dụng đã trả dữ liệu thật cho Tavily Search, Tavily Extract và tool local mới: [services_smoke.json](../analysis/services_smoke.json). Twitter API45 chưa được kiểm chứng dùng được: các lần kiểm tra gặp thiếu key, 403 hoặc 429 ở những thời điểm khác nhau. Tavily keyless cũng có giới hạn lưu lượng: trong run base v3, 16/17 tool call trả error, dù routing đạt 75%; group run v3 có 5/10 tool call trả error. Vì vậy điểm chọn tool không được diễn giải thành tỷ lệ hoàn thành nghiên cứu.
-
-Các runner eval/CLI và UI đều chặn gửi Telegram tại lớp thực thi trong bản cuối. G10 cho thấy model vẫn có thể gọi `send(confirmed=true)` sau khi người dùng hủy; cờ do model tự tạo không phải sự đồng ý của con người. Guard bổ sung sau các run giữ nguyên raw log và điểm routing, và có regression test riêng. Không có Telegram message thật nào được gửi.
+Sau khi bổ sung key, Tavily Search và Firecrawl đã trả dữ liệu thật; mẫu đọc URL đã chạy thành công qua link công khai. X/Twitter vẫn chưa kết nối ổn định. Giao diện không gửi Telegram. Bằng chứng và giới hạn được ghi ở B4.
 
 ## A3. Các yêu cầu mẫu
 
@@ -142,6 +132,21 @@ G01 kiểm tra cả routing và danh sách `items` mà model truyền cho tool m
 
 ## B4. Hội thoại thật và UI
 
+### Giao diện Research Desk sau khi thiết kế lại
+
+Đã kiểm tra bằng Chrome thật ở viewport máy tính 1440×1000 và điện thoại 390×844; không có lỗi JavaScript hoặc tràn ngang. Ba nút mẫu chỉ điền nháp để người dùng sửa và gửi. Tiến trình dùng callback từ công cụ thực thi, không mô phỏng hoạt động. Liên kết lấy từ kết quả tool; URL đầu vào của công cụ loại trùng chưa được coi là nội dung đã đọc/xác minh. Provider/model/version bị khóa khi chia sẻ công khai; mỗi lượt tối đa 4.000 ký tự và 4 vòng công cụ. Key nằm trên máy chủ, transcript có redaction. Mở trang hoặc chọn mẫu không gọi model.
+
+- [Kiểm tra Chrome và mẫu loại trùng](../analysis/ui_redesign_browser_check.json): model gọi `dedupe_sources` thật, giữ 2 mục từ 3 mục, tải transcript khả dụng; [transcript](../transcripts/ui_v3_openai_20261110T110434754154.transcript.json).
+- [Kiểm tra dịch vụ sau khi thêm key](../analysis/ui_redesign_services_smoke.json): `lookup`, `fetch` và `dedupe_sources` đều trả dữ liệu thật. Lần kiểm tra này dùng Tavily Search có key và Firecrawl cho đọc URL.
+- [Đọc URL qua link Cloudflare công khai](../analysis/ui_redesign_public_web_check_after_keys.json): model gọi `fetch` thành công, trả lời sau khoảng 13,1 giây; [transcript](../transcripts/ui_v3_openai_20261110T110936203883.transcript.json).
+- [Ảnh giao diện máy tính](../analysis/ui_preview/desktop.png), [điện thoại](../analysis/ui_preview/mobile.png), [kết quả loại trùng](../analysis/ui_preview/live_result.png), [đọc URL](../analysis/ui_preview/web_result.png).
+
+Các run v0–v3 ở B1 được giữ nguyên: trong run base v3 có 16/17 tool call trả error; group v3 có 5/10 tool call trả error do dịch vụ tại thời điểm đo. Việc thêm key và chạy UI thành công sau đó không thay đổi các run, hash hoặc điểm cũ. Lần thử UI đọc URL trước khi thêm key vẫn được giữ tại [bằng chứng lỗi 429](../analysis/ui_redesign_public_web_check.json) và [transcript](../transcripts/ui_v3_openai_20261110T110621267585.transcript.json).
+
+Máy có lúc không phân giải được `api.xah.io`; kiểm tra riêng với DNS qua HTTPS và TLS nguyên trạng đã gọi model thành công. Launcher `scripts/serve_demo.py --dns-fallback` chỉ phục hồi phân giải tên miền này trong tiến trình, không sửa mạng Windows. Khởi động lại không bảo đảm chữa được lỗi credit/quota; các lỗi dịch vụ vẫn hiển thị trên UI. Các runner eval/CLI và UI chặn gửi Telegram ở lớp thực thi, độc lập với cờ `confirmed` mà model tạo. Không có Telegram message thật nào được gửi.
+
+### Bằng chứng của phiên UI/CLI trước khi thiết kế lại
+
 Kịch bản [demo_chat.json](../data/demo_chat.json) được script đưa vào `chat.py`, gọi API model thật và lưu [transcript 3 lượt](../transcripts/v3_openai_20261110T103849383606.transcript.json). Đây là kiểm tra live có input soạn trước, không phải phản hồi của bạn học hay buổi phỏng vấn.
 
 | Lượt | Yêu cầu | Tool call thật | Hash/phiên bản | Kết quả |
@@ -159,8 +164,8 @@ Phiên demo công khai khóa provider/model/version, giới hạn 4 vòng tool v
 | Hạng mục | Bằng chứng | Trạng thái |
 |---|---|---|
 | Tool mới | `tools/dedupe_sources/tool.py`, `TOOL.md` | PASS; có test contract và test input/error/duplicate semantics |
-| Unit test tool và toàn suite | `tests/test_tools_todo.py`, test tool mới, contract/runtime tests; [tool_test_notes.md](../analysis/tool_test_notes.md) | Toàn suite **144 passed, 0 failed, 0 skipped**; riêng TODO/tool có 64 passed. [Output pytest](../analysis/pytest_output.txt) |
-| UI runtime/public mode | `tests/test_ui_runtime.py`, `tests/test_ui_public.py` | 5 passed, offline; kiểm tra khóa cấu hình demo, session reset và không gọi model khi load trang |
+| Unit test tool và toàn suite | `tests/test_tools_todo.py`, test tool mới, contract/runtime tests; [tool_test_notes.md](../analysis/tool_test_notes.md) | Bản sau khi thiết kế lại UI: **147 passed, 0 failed, 0 skipped**; riêng TODO/tool có 64 passed. [Output pytest mới](../analysis/ui_redesign_pytest_output.txt); [output trước đó](../analysis/pytest_output.txt) |
+| UI runtime/public mode | `tests/test_ui_runtime.py`, `tests/test_ui_public.py` | 6 passed, offline; kiểm tra khóa cấu hình demo, session reset, callback tiến trình có redaction và không gọi model khi load trang |
 | Telegram gửi thật | Không có | Không thực hiện |
 | arXiv/company policy live | Chưa có transcript | Không ghi nhận bonus khi chưa có bằng chứng |
 | UI deploy công khai | [Link demo](https://learned-agreed-focused-korean.trycloudflare.com), [health check](../analysis/deployment_check.json) | HTTP 200; link tạm theo phiên tunnel |

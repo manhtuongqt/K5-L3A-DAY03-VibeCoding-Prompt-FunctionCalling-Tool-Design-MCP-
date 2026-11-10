@@ -1,0 +1,9 @@
+{
+  "kind": "live_model_connectivity_for_ui_redesign",
+  "provider": "openai",
+  "model": "gemini-2.5-flash-lite",
+  "ok": false,
+  "error_type": "APIConnectionError",
+  "detail": "Connection error.",
+  "elapsed_seconds": 12.48
+}

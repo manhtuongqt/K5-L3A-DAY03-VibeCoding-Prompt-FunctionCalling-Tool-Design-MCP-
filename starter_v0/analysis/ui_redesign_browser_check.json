@@ -1,0 +1,10 @@
+{
+  "kind": "real_chrome_browser_ui_check",
+  "page_errors": [],
+  "preset_prefills_without_sending": true,
+  "desktop_horizontal_overflow": false,
+  "mobile_horizontal_overflow": false,
+  "live_dedupe_result_visible": true,
+  "download_button_visible": true,
+  "assistant_message_count": 2
+}

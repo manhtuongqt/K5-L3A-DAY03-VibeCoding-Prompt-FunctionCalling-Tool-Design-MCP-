@@ -1,14 +1,15 @@
 """Session helpers for Streamlit; all model responses come from the chosen provider."""
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Callable
 
 from chat import assistant_tool_message, execute_tool_call, tool_results_message
 from redaction import redact_secrets
 
 
 def run_ui_turn(*, provider: Any, messages: list[dict[str, str]], tools: list[dict[str, Any]],
-                model: str | None, max_tool_rounds: int = 5) -> dict[str, Any]:
+                model: str | None, max_tool_rounds: int = 5,
+                on_event: Callable[[dict[str, Any]], None] | None = None) -> dict[str, Any]:
     """Run the same tool protocol as chat.py, retaining context at a clarification pause.
 
     The demo never executes outbound Telegram sends, even if a model invents a call.
@@ -32,6 +33,8 @@ def run_ui_turn(*, provider: Any, messages: list[dict[str, str]], tools: list[di
         working.append(assistant_tool_message(response.text, calls))
         pending_question = None
         for call in calls:
+            if on_event:
+                on_event({"phase": "tool_start", "tool": call.name})
             if call.name == "send":
                 event = {"tool": "send", "args": call.args, "result": {
                     "error": "action_disabled_in_demo",
@@ -39,6 +42,9 @@ def run_ui_turn(*, provider: Any, messages: list[dict[str, str]], tools: list[di
             else:
                 event = redact_secrets(execute_tool_call(call))
             events.append(event)
+            if on_event:
+                on_event(redact_secrets({"phase": "tool_end", "tool": call.name,
+                                         "result": event.get("result", {})}))
             record["tool_results"].append(event)
             result = event.get("result", {})
             if isinstance(result, dict) and result.get("awaiting_user"):

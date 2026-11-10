@@ -52,3 +52,21 @@ def test_redactor_removes_environment_secret_from_nested_error(monkeypatch):
     assert "secret-that-must-not-leak" not in str(output)
     assert "sk-project-test_secret_123456" not in str(output)
     assert "[REDACTED]" in str(output)
+
+
+def test_live_progress_reports_actual_tools_and_redacts_results(monkeypatch):
+    monkeypatch.setenv("TEST_PROVIDER_API_KEY", "private-progress-secret")
+    monkeypatch.setattr("ui_support.execute_tool_call", lambda call: {
+        "tool": call.name, "result": {"error": "private-progress-secret"}})
+    provider = ScriptedProvider([
+        ModelResponse(tool_calls=[ToolCall("lookup", {"query": "Python"})]),
+        ModelResponse(text="Service unavailable."),
+    ])
+    progress = []
+    result = run_ui_turn(provider=provider, messages=[], tools=[], model=None,
+                         on_event=progress.append)
+    assert [event["phase"] for event in progress] == ["tool_start", "tool_end"]
+    assert all(event["tool"] == "lookup" for event in progress)
+    assert "private-progress-secret" not in str(progress)
+    assert progress[1]["result"]["error"] == "[REDACTED]"
+    assert result["status"] == "answered"

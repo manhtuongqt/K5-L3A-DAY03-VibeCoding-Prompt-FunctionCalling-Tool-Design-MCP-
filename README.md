@@ -312,6 +312,8 @@ Try at least 3 live turns, for example:
 
 ## Deploy nhanh để team khác dùng thử (khuyến nghị: Cloudflare Tunnel)
 
+**Bản demo của nhóm:** [Research Desk](https://learned-agreed-focused-korean.trycloudflare.com) · [Hướng dẫn dùng thử và kịch bản demo](starter_v0/DEMO_GUIDE.md). Link phụ thuộc máy chủ và tunnel đang chạy. Giao diện có mẫu tác vụ, tiến trình công cụ, liên kết kết quả và tải transcript; trạng thái dịch vụ được hiển thị rõ.
+
 Để team cùng zone tự thử agent trong Team showdown, expose UI đang chạy local ra một link public. Cách nhanh nhất, không cần đăng ký domain hay deploy lên cloud, là **Cloudflare Tunnel** (`cloudflared`).
 
 1. Chạy UI local trước (ví dụ Streamlit mặc định cổng `8501`):
