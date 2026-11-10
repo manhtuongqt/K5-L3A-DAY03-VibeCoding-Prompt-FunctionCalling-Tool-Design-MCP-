@@ -31,7 +31,7 @@ Phần log và đề xuất tình huống phải kèm [bằng chứng gọi API 
 
 # PHẦN A — Giới thiệu agent
 
-**Bản trình chiếu một trang:** [poster.html](poster.html) · [PDF để in](poster.pdf). Bản markdown Phần A dưới đây vẫn là nội dung nộp chính. Tải HTML về và mở bằng trình duyệt; GitHub hiển thị mã nguồn HTML thay vì chạy trang.
+**Bản trình chiếu một trang:** [poster.html](poster.html) · [Ảnh PNG](poster.png) · [PDF để in](poster.pdf). Bản markdown Phần A dưới đây vẫn là nội dung nộp chính. Tải HTML về và mở bằng trình duyệt; GitHub hiển thị mã nguồn HTML thay vì chạy trang.
 
 ## A1. Agent làm được gì
 

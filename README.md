@@ -355,7 +355,9 @@ Hoàn thành `artifacts/REPORT.md`. File này có 2 phần với deadline khác 
 
 **Format Phần A:** nộp tối thiểu bản markdown trong `REPORT.md`. Khuyến khích biến Phần A thành **poster HTML/SVG 1 trang** để show trực tiếp cho team cùng zone (ví dụ `artifacts/poster.html` hoặc `artifacts/poster.svg`) — cùng nội dung, dễ nhìn hơn. Poster HTML/SVG là tùy chọn, không thay thế bản markdown.
 
-Poster nhóm Vibe coding đã có: [HTML một trang](starter_v0/artifacts/poster.html) · [PDF A4 ngang](starter_v0/artifacts/poster.pdf). Tải HTML về và mở bằng trình duyệt để trình chiếu hoặc bấm nút in; GitHub chỉ hiển thị mã nguồn HTML.
+Poster nhóm Vibe coding đã có: [HTML một trang](starter_v0/artifacts/poster.html) · [Ảnh PNG](starter_v0/artifacts/poster.png) · [PDF A4 ngang](starter_v0/artifacts/poster.pdf). Tải HTML về và mở bằng trình duyệt để trình chiếu hoặc bấm nút in; GitHub chỉ hiển thị mã nguồn HTML.
+
+![Poster giới thiệu Research Desk của nhóm Vibe coding](starter_v0/artifacts/poster.png)
 
 ## Step 7 — Bonus Challenge: Small Local Model
 
